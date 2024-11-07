@@ -27,30 +27,59 @@
         </div>
         <div class="container mt-5">
           <h2 class="text-center">Bảng Sự Kiện</h2>
+          <div class="d-flex justify-content-between mb-3">
+            <a href="/addevent">Thêm sự kiện</a>
+            <form>
+              <input type="text" />
+              <button type="submit">Tìm</button>
+            </form>
+          </div>
           <table class="table table-bordered table-striped">
             <thead class="table-dark">
               <tr>
                 <th scope="col">STT</th>
-                <th scope="col">ID Người tạo sự kiện</th>
+                <th scope="col">Người tạo sự kiện</th>
                 <th scope="col">Tên sự kiện</th>
                 <th scope="col">Khóa</th>
                 <th scope="col">Ẩn</th>
                 <th scope="col">Thời hạn đăng ký</th>
                 <th scope="col">Thời gian tạo sự kiện</th>
                 <th scope="col">Ngày diễn ra sự kiện</th>
+                <th scope="col">Hành động</th>
               </tr>
             </thead>
             <tbody>
+              <% data.listEvent.forEach(function(event, index) { %>
               <tr>
-                <td>1</td>
-                <td>12345</td>
-                <td>Sự kiện A</td>
-                <td>Không</td>
-                <td>Có</td>
-                <td>2024-12-01</td>
-                <td>2024-10-15</td>
-                <td>2024-12-15</td>
+                <td><%= index+1 %></td>
+                <td><%= event.username %></td>
+                <td><%= event.name %></td>
+                <td>
+                  <input type="checkbox" <%= event.is_locked ? 'checked' : ''
+                  %>>
+                </td>
+                <td>
+                  <input type="checkbox" <%= event.is_hidden ? 'checked' : ''
+                  %>>
+                </td>
+                <td><%= event.reg_deadline.toLocaleDateString('vi-VN') %></td>
+                <td><%= event.created_at.toLocaleDateString('vi-VN') %></td>
+                <td><%= event.occasion_date.toLocaleDateString('vi-VN') %></td>
+                <td>
+                  <a href="">Xem</a>
+                  <a href="/editevent/<%= event.ID %>">Sửa</a>
+                  <form method="post" action="/deleteevent">
+                    <input
+                      type="text"
+                      value="<%= event.ID %>"
+                      name="idevent"
+                      hidden
+                    />
+                    <button>Xóa</button>
+                  </form>
+                </td>
               </tr>
+              <% }) %>
             </tbody>
           </table>
         </div>
