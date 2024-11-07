@@ -1,43 +1,47 @@
-import 'dotenv/config';
-import express from 'express';
-import { initWebRoutes } from './routes/webRoute.js';
-import bodyParser from 'body-parser';
-import session from 'express-session';
-import { createClient } from 'redis';
-import RedisStore from 'connect-redis';
-import cors from 'cors';
+import "dotenv/config";
+import express from "express";
+import { initWebRoutes } from "./routes/webRoute.js";
+import bodyParser from "body-parser";
+import session from "express-session";
+import { createClient } from "redis";
+import RedisStore from "connect-redis";
+import cors from "cors";
+import viewEngine from "./Engine/viewEngine.js";
 
 const PORT = process.env.APP_PORT || 8080;
 
 const app = express();
-
-app.use(cors({
+viewEngine(app);
+app.use(express.static("public"));
+app.use(
+  cors({
     origin: true,
     credentials: true,
-}))
+  })
+);
 
-let redisClient = createClient()
-redisClient.connect().catch(console.error)
+let redisClient = createClient();
+redisClient.connect().catch(console.error);
 
 // Initialize store.
 let redisStore = new RedisStore({
-    client: redisClient,
-    prefix: "websukien:",
-})
+  client: redisClient,
+  prefix: "websukien:",
+});
 
 app.use(
-    session({
-        store: redisStore,
-        resave: false, // required: force lightweight session keep alive (touch)
-        saveUninitialized: false, // recommended: only save session when data exists
-        secret: process.env.SESSION_SECRET || 'keyboard cat',
-        cookie: {
-            secure: false,
-            httpOnly: true,
-            maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-        }
-    }),
-)
+  session({
+    store: redisStore,
+    resave: false, // required: force lightweight session keep alive (touch)
+    saveUninitialized: false, // recommended: only save session when data exists
+    secret: process.env.SESSION_SECRET || "keyboard cat",
+    cookie: {
+      secure: false,
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+    },
+  })
+);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,5 +49,5 @@ app.use(bodyParser.urlencoded({ extended: true }));
 initWebRoutes(app);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
