@@ -10,6 +10,7 @@ router.post("/addevent", AdminController.addEvent);
 router.post("/deleteevent", AdminController.deleteEvent);
 router.get("/viewallevent", AdminController.getViewAllEventPage);
 router.get("/editevent/:id", AdminController.getEditEventPage);
+router.post("/editevent", AdminController.editEvent);
 export function initWebRoutes(app) {
   router.post("/api/login", LoginApiController.postLogin);
 

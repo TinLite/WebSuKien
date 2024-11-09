@@ -22,4 +22,24 @@ const deleteEvent = (data) => {
 const getEventByID = (id) => {
   return connection.query("SELECT * FROM `event` WHERE event.ID = ?", [id]);
 };
-export default { addEvent, getAllEvent, deleteEvent, getEventByID };
+const editEvent = (data) => {
+  return connection.query(
+    "UPDATE `event` SET name=?, des=?, reg_deadline=?, occasion_date=? WHERE event.ID=?",
+    [data.name, data.des, data.regDeadline, data.occasionDate, data.idevent]
+  );
+};
+
+const getEventByName = (name) => {
+  name = `?${name}?`;
+  return connection.query("SELECT * FROM `event` WHERE event.name LIKE ?", [
+    name,
+  ]);
+};
+export default {
+  addEvent,
+  getAllEvent,
+  deleteEvent,
+  getEventByID,
+  editEvent,
+  getEventByName,
+};
