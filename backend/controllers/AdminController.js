@@ -19,10 +19,11 @@ const deleteEvent = async (req, res) => {
 };
 const getViewAllEventPage = async (req, res) => {
   const { find } = req.query;
+  let data;
   if (find) {
-    const [data] = await eventModel.getEventByName(find);
+    [data] = await eventModel.getEventByName(find);
   } else {
-    const [data] = await eventModel.getAllEvent();
+    [data] = await eventModel.getAllEvent();
   }
   res.render("viewAllEvent", { data: { listEvent: data } });
 };
@@ -40,7 +41,6 @@ const getEditEventPage = async (req, res) => {
 };
 const editEvent = async (req, res) => {
   const data = req.body;
-  console.log(data);
   await eventModel.editEvent(data);
   return res.redirect("/viewAllEvent");
 };

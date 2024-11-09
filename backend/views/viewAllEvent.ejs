@@ -25,10 +25,10 @@
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
           <%- include('layout/sidebar'); %>
         </div>
-        <div class="container mt-5">
-          <h2 class="text-center">Bảng Sự Kiện</h2>
+        <div class="container mt-5 col-10">
+          <h2 class="text-center">BẢNG SỰ KIỆN</h2>
           <div class="d-flex justify-content-between mb-3">
-            <a href="/addevent">Thêm sự kiện</a>
+            <a href="/addevent" class="btn btn-primary">Thêm sự kiện</a>
             <form>
               <input type="text" name="find" />
               <button type="submit">Tìm</button>
@@ -66,16 +66,22 @@
                 <td><%= event.created_at.toLocaleDateString('vi-VN') %></td>
                 <td><%= event.occasion_date.toLocaleDateString('vi-VN') %></td>
                 <td>
-                  <a href="">Xem</a>
-                  <a href="/editevent/<%= event.ID %>">Sửa</a>
-                  <form method="post" action="/deleteevent">
+                  <a class="btn btn-success" href="">Xem</a>
+                  <a class="btn btn-primary" href="/editevent/<%= event.ID %>"
+                    >Sửa</a
+                  >
+                  <form
+                    method="post"
+                    action="/deleteevent"
+                    class="d-inline-block"
+                  >
                     <input
                       type="text"
                       value="<%= event.ID %>"
                       name="idevent"
                       hidden
                     />
-                    <button>Xóa</button>
+                    <button class="btn btn-danger">Xóa</button>
                   </form>
                 </td>
               </tr>

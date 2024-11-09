@@ -30,10 +30,12 @@ const editEvent = (data) => {
 };
 
 const getEventByName = (name) => {
-  name = `?${name}?`;
-  return connection.query("SELECT * FROM `event` WHERE event.name LIKE ?", [
-    name,
-  ]);
+  name = `%${name}%`;
+  console.log(name);
+  return connection.query(
+    "SELECT user.username, event.* FROM `event` JOIN `user` ON event.id_creator = user.ID WHERE name like ?",
+    [name]
+  );
 };
 export default {
   addEvent,
