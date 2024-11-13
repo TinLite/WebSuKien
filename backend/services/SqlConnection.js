@@ -1,10 +1,10 @@
-import mysql from 'mysql2';
+import mysql from "mysql2";
 
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'websukien',
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "websukien",
 });
 
 const connection = pool.promise();
