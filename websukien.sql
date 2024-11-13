@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2024 at 09:32 AM
+-- Generation Time: Nov 13, 2024 at 09:52 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `attendance` (
-  `id_user` int(11) NOT NULL,
+  `id_user` varchar(128) NOT NULL,
   `id_event` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -41,7 +41,7 @@ CREATE TABLE `attendance` (
 
 CREATE TABLE `event` (
   `ID` int(11) NOT NULL,
-  `id_creator` int(11) NOT NULL,
+  `id_creator` varchar(128) NOT NULL,
   `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `des` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `is_locked` tinyint(1) NOT NULL DEFAULT 0,
@@ -81,7 +81,7 @@ CREATE TABLE `group` (
 --
 
 CREATE TABLE `group_member` (
-  `user_id` int(11) NOT NULL,
+  `user_id` varchar(128) NOT NULL,
   `group_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -94,7 +94,7 @@ CREATE TABLE `group_member` (
 CREATE TABLE `history` (
   `ID` int(11) NOT NULL,
   `id_event` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
+  `id_user` varchar(128) NOT NULL,
   `detail` varchar(128) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -106,7 +106,7 @@ CREATE TABLE `history` (
 --
 
 CREATE TABLE `user` (
-  `ID` int(11) NOT NULL,
+  `ID` varchar(128) NOT NULL,
   `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `phone` varchar(10) NOT NULL,
@@ -114,6 +114,13 @@ CREATE TABLE `user` (
   `role` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`ID`, `username`, `password`, `phone`, `email`, `role`, `status`) VALUES
+('1', 'admin', '$2b$10$b64a3nAkgLiNitZlkkxGpumX2XR0wbuO31ttKtbnbaVChBQ521soS', '', '', 'admin', 1);
 
 --
 -- Indexes for dumped tables
@@ -150,8 +157,8 @@ ALTER TABLE `group`
 -- Indexes for table `group_member`
 --
 ALTER TABLE `group_member`
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `group_id` (`group_id`);
+  ADD KEY `group_id` (`group_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `history`
@@ -190,12 +197,6 @@ ALTER TABLE `history`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Constraints for dumped tables
 --
 
@@ -223,8 +224,8 @@ ALTER TABLE `event_group_register`
 -- Constraints for table `group_member`
 --
 ALTER TABLE `group_member`
-  ADD CONSTRAINT `group_member_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`ID`),
-  ADD CONSTRAINT `group_member_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`);
+  ADD CONSTRAINT `group_member_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`),
+  ADD CONSTRAINT `group_member_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`ID`);
 
 --
 -- Constraints for table `history`
