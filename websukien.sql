@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2024 at 09:52 AM
+-- Generation Time: Nov 13, 2024 at 10:06 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -70,6 +70,7 @@ CREATE TABLE `event_group_register` (
 
 CREATE TABLE `group` (
   `group_id` int(11) NOT NULL,
+  `id_owner` varchar(128) NOT NULL,
   `group_name` varchar(128) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -120,6 +121,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`ID`, `username`, `password`, `phone`, `email`, `role`, `status`) VALUES
+('', 'teo', '$2b$10$/b2wojgccSGEZKURTYRqXO04whaG8J1c8nQYoUbLYIcJxV98Epfz2', '', '', 'admin', 1),
 ('1', 'admin', '$2b$10$b64a3nAkgLiNitZlkkxGpumX2XR0wbuO31ttKtbnbaVChBQ521soS', '', '', 'admin', 1);
 
 --
@@ -151,7 +153,8 @@ ALTER TABLE `event_group_register`
 -- Indexes for table `group`
 --
 ALTER TABLE `group`
-  ADD PRIMARY KEY (`group_id`);
+  ADD PRIMARY KEY (`group_id`),
+  ADD KEY `id_owner` (`id_owner`);
 
 --
 -- Indexes for table `group_member`
@@ -219,6 +222,12 @@ ALTER TABLE `event`
 ALTER TABLE `event_group_register`
   ADD CONSTRAINT `event_group_register_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`ID`),
   ADD CONSTRAINT `event_group_register_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`);
+
+--
+-- Constraints for table `group`
+--
+ALTER TABLE `group`
+  ADD CONSTRAINT `group_ibfk_1` FOREIGN KEY (`id_owner`) REFERENCES `user` (`ID`);
 
 --
 -- Constraints for table `group_member`
