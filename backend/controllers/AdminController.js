@@ -1,6 +1,10 @@
-import eventModel from "../models/EventModel";
+import eventModel from "../models/EventModel.js";
+
 const getHomePage = (req, res) => {
-  res.render("home");
+  res.render("home", { body: "user/list" });
+};
+const addUser = (req, res) => {
+  res.render("home", { body: "user/add" });
 };
 const getAddEventPage = (req, res) => {
   res.render("addEvent");
@@ -46,6 +50,7 @@ const editEvent = async (req, res) => {
 };
 export default {
   getHomePage,
+  addUser,
   getAddEventPage,
   addEvent,
   getViewAllEventPage,

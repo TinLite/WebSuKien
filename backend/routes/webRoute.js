@@ -4,6 +4,7 @@ import AdminController from "../controllers/AdminController.js";
 
 const router = Router();
 
+router.get("/user/add", AdminController.addUser);
 router.get("/", AdminController.getHomePage);
 router.get("/addevent", AdminController.getAddEventPage);
 router.post("/addevent", AdminController.addEvent);

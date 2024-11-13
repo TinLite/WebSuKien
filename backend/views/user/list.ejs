@@ -1,0 +1,104 @@
+<div class="row mb-2">
+    <div class="mb-10">
+        <h2>
+            <strong>Quản lý người dùng</strong>
+        </h2>
+    </div>
+    <div class="col-md-10 mt-2 mb-2 mb-md-0">
+        <input type="text" class="form-control" placeholder="Tìm kiếm...">
+    </div>
+    <div class="col-md-2  mt-2 d-flex justify-content-end">
+        <a href="/user/add" class="btn btn-primary ">
+            <i class="fa-solid fa-user-plus"></i>
+            Thêm người dùng
+        </a>
+    </div>
+</div>
+<table class="table align-middle mb-0 bg-white">
+    <thead class="bg-light">
+        <tr>
+            <th>Họ tên</th>
+            <th>Lớp</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <div class="d-flex align-items-center">
+                    <img src="https://github.com/QuangTeoo.png" style="width: 45px; height: 45px"
+                        class="rounded-circle" />
+                    <div class="ms-3">
+                        <p class="fw-bold mb-1">Bé Tèo</p>
+                        <p class="text-muted mb-0">QuangTeo@gmail.com</p>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <p class="fw-normal mb-1">Software engineer</p>
+                <!-- <p class="text-muted mb-0">IT department</p> -->
+            </td>
+            <td>
+                <p class="fw-normal mb-1">Đang hoạt động</p>
+            </td>
+            <td class="text-decoration-none">
+                <!-- <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white">
+                    Chi tiết
+                </a> -->
+                <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white">
+                    Chỉnh sửa
+                </a>
+                <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white">
+                    Khóa
+                </a>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+<!-- <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserModalLabel">Thêm người dùng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3 mt-3" action="/user/add" method="POST">
+                    <div class="col-md-6">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputPassword4" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="inputPassword4" name="password">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="inputEmail4" name="email">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="displayname" class="form-label">Displayname</label>
+                        <input type="text" class="form-control" id="displayname" name="fullname">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="sex" class="form-label">Sex</label>
+                        <select class="form-control" id="sex" name="sex" required>
+                            <option value="1">Nam</option>
+                            <option value="0">Nữ</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputAddress" class="form-label">Địa chỉ</label>
+                        <input type="text" class="form-control" id="inputAddress" name="address">
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Add User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> -->
+</div>
