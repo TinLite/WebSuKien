@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2024 at 05:07 AM
+-- Generation Time: Nov 13, 2024 at 09:32 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -36,30 +36,6 @@ CREATE TABLE `attendance` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `class`
---
-
-CREATE TABLE `class` (
-  `ID` int(11) NOT NULL,
-  `id_department` int(11) NOT NULL,
-  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `department`
---
-
-CREATE TABLE `department` (
-  `ID` int(11) NOT NULL,
-  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `event`
 --
 
@@ -73,6 +49,40 @@ CREATE TABLE `event` (
   `reg_deadline` datetime NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `occasion_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `event_group_register`
+--
+
+CREATE TABLE `event_group_register` (
+  `group_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group`
+--
+
+CREATE TABLE `group` (
+  `group_id` int(11) NOT NULL,
+  `group_name` varchar(128) NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_member`
+--
+
+CREATE TABLE `group_member` (
+  `user_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -101,7 +111,6 @@ CREATE TABLE `user` (
   `password` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `phone` varchar(10) NOT NULL,
   `email` varchar(128) NOT NULL,
-  `id_class` int(11) DEFAULT NULL,
   `role` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -118,24 +127,31 @@ ALTER TABLE `attendance`
   ADD UNIQUE KEY `id_event` (`id_event`);
 
 --
--- Indexes for table `class`
---
-ALTER TABLE `class`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `id_department` (`id_department`);
-
---
--- Indexes for table `department`
---
-ALTER TABLE `department`
-  ADD PRIMARY KEY (`ID`);
-
---
 -- Indexes for table `event`
 --
 ALTER TABLE `event`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `id_creator` (`id_creator`);
+
+--
+-- Indexes for table `event_group_register`
+--
+ALTER TABLE `event_group_register`
+  ADD KEY `event_id` (`event_id`),
+  ADD KEY `group_id` (`group_id`);
+
+--
+-- Indexes for table `group`
+--
+ALTER TABLE `group`
+  ADD PRIMARY KEY (`group_id`);
+
+--
+-- Indexes for table `group_member`
+--
+ALTER TABLE `group_member`
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `group_id` (`group_id`);
 
 --
 -- Indexes for table `history`
@@ -149,30 +165,23 @@ ALTER TABLE `history`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `id_class` (`id_class`);
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `class`
---
-ALTER TABLE `class`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `department`
---
-ALTER TABLE `department`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `group`
+--
+ALTER TABLE `group`
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `history`
@@ -198,16 +207,24 @@ ALTER TABLE `attendance`
   ADD CONSTRAINT `attendance_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`ID`);
 
 --
--- Constraints for table `class`
---
-ALTER TABLE `class`
-  ADD CONSTRAINT `class_ibfk_1` FOREIGN KEY (`id_department`) REFERENCES `department` (`ID`);
-
---
 -- Constraints for table `event`
 --
 ALTER TABLE `event`
   ADD CONSTRAINT `event_ibfk_1` FOREIGN KEY (`id_creator`) REFERENCES `user` (`ID`);
+
+--
+-- Constraints for table `event_group_register`
+--
+ALTER TABLE `event_group_register`
+  ADD CONSTRAINT `event_group_register_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`ID`),
+  ADD CONSTRAINT `event_group_register_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`);
+
+--
+-- Constraints for table `group_member`
+--
+ALTER TABLE `group_member`
+  ADD CONSTRAINT `group_member_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`ID`),
+  ADD CONSTRAINT `group_member_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`);
 
 --
 -- Constraints for table `history`
@@ -215,12 +232,6 @@ ALTER TABLE `event`
 ALTER TABLE `history`
   ADD CONSTRAINT `history_ibfk_1` FOREIGN KEY (`id_event`) REFERENCES `event` (`ID`),
   ADD CONSTRAINT `history_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`ID`);
-
---
--- Constraints for table `user`
---
-ALTER TABLE `user`
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_class`) REFERENCES `class` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
