@@ -17,6 +17,7 @@
 <table class="table align-middle mb-0 bg-white">
     <thead class="bg-light">
         <tr>
+            <th>Mssv</th>
             <th>Họ tên</th>
             <th>Lớp</th>
             <th>Trạng thái</th>
@@ -24,37 +25,38 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>
-                <div class="d-flex align-items-center">
-                    <img src="https://github.com/QuangTeoo.png" style="width: 45px; height: 45px"
-                        class="rounded-circle" />
-                    <div class="ms-3">
-                        <p class="fw-bold mb-1">Bé Tèo</p>
-                        <p class="text-muted mb-0">QuangTeo@gmail.com</p>
+        <% for (let i=0; i < row.length; i++ ) { %>
+            <tr>
+                <td>
+                    <p class="fw-normal mb-1"><%= row[i].ID %></p>
+                    <!-- <p class="text-muted mb-0">IT department</p> -->
+                </td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <img src="https://github.com/QuangTeoo.png" style="width: 45px; height: 45px"
+                            class="rounded-circle" />
+                        <div class="ms-3">
+                            <p class="fw-bold mb-1"><%= row[i].username %></p>
+                            <p class="text-muted mb-0"><%= row[i].email %></p>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">Software engineer</p>
-                <!-- <p class="text-muted mb-0">IT department</p> -->
-            </td>
-            <td>
-                <p class="fw-normal mb-1">Đang hoạt động</p>
-            </td>
-            <td class="text-decoration-none">
-                <!-- <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white">
-                    Chi tiết
-                </a> -->
-                <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white">
-                    Chỉnh sửa
-                </a>
-                <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white">
-                    Khóa
-                </a>
-            </td>
-        </tr>
-
+                </td>
+                <td>
+                    <p class="fw-normal mb-1">Software engineer</p>
+                </td>
+                <td>
+                    <p class="fw-normal mb-1">Đang hoạt động</p>
+                </td>
+                <td class="text-decoration-none">
+                    <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white">
+                        Chỉnh sửa
+                    </a>
+                    <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white">
+                        Khóa
+                    </a>
+                </td>
+            </tr>
+            <% } %>
     </tbody>
 </table>
 

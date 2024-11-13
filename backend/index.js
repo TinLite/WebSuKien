@@ -7,7 +7,7 @@ import { createClient } from "redis";
 import RedisStore from "connect-redis";
 import cors from "cors";
 import viewEngine from "./Engine/viewEngine.js";
-
+import sequelize from "./services/SequelizeConnection.js";
 const PORT = process.env.APP_PORT || 8080;
 
 const app = express();
@@ -45,7 +45,12 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+sequelize.authenticate().then(() => {
+  console.log("Connection has been established successfully.");
+})
+.catch((err) => {
+  console.log("Connect DB fail", err);
+});
 initWebRoutes(app);
 
 app.listen(PORT, () => {

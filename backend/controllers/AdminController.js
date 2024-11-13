@@ -1,11 +1,14 @@
 import eventModel from "../models/EventModel.js";
-
-const getHomePage = (req, res) => {
-  res.render("home", { body: "user/list" });
+import User from "../SequelizeModels/SequelizeUserModel.js";
+const getHomePage = async (req, res) => {
+  const users = await User.findAll();
+  console.log(users);
+  res.render("home", { body: "user/list", row: users });
 };
 const addUser = (req, res) => {
   res.render("home", { body: "user/add" });
 };
+
 const getAddEventPage = (req, res) => {
   res.render("addEvent");
 };
