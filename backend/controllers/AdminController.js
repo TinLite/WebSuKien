@@ -18,13 +18,13 @@ const addUser = async (req, res) => {
   }
 };
 const unActiveUser = async (req, res) => {
-  const { id } = req.body;
-  await userModel.unActiveUser(id);
+  const ID = req.params.ID;
+  await userModel.unActiveUser(ID);
   return res.redirect("/");
 }
 const activeUser = async (req, res) => {
-  const { id } = req.body;
-  await userModel.activeUser(id);
+  const ID = req.params.ID;
+  await userModel.activeUser(ID);
   return res.redirect("/");
 }
 
@@ -79,4 +79,6 @@ export default {
   deleteEvent,
   getEditEventPage,
   editEvent,
+  unActiveUser,
+  activeUser,
 };

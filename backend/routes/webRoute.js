@@ -10,8 +10,8 @@ export function initWebRoutes(app) {
   router.post("/user/add", AdminController.addUser);
   router.get("/", AdminController.getHomePage);
 
-  // router.post("/user/unactive/:ID", AdminController.unActiveUser);
-  // router.post("/user/active/:ID", AdminController.activeUser);
+  router.post("/user/unactive/:ID", AdminController.unActiveUser);
+  router.post("/user/active/:ID", AdminController.activeUser);
 
   // Event
   router.get("/addevent", AdminController.getAddEventPage);

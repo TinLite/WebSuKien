@@ -16,17 +16,25 @@ const addUser = async (data) => {
   return result;
 };
 
-const unActiveUser = async (id) => {
+const unActiveUser = async (ID) => {
   const [result] = await connection.query(
-    "UPDATE user SET status = 0 WHERE id = ?",
-    [id]
+    "UPDATE user SET status = 0 WHERE ID = ?",
+    [ID]
   );
   return result;
 };
-const activeUser = async (id) => {
+const activeUser = async (ID) => {
   const [result] = await connection.query(
-    "UPDATE user SET status = 1 WHERE id = ?",
-    [id]
+    "UPDATE user SET status = 1 WHERE ID = ?",
+    [ID]
+  );
+  return result;
+};
+const updateUser = async (data) => {
+  const { id, username, password, phone, email } = data;
+  const [result] = await connection.query(
+    "UPDATE user SET username = ?, password = ?, phone = ?, email = ? WHERE ID = ?",
+    [username, password, phone, email, id]
   );
   return result;
 };

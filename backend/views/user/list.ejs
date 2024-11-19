@@ -60,61 +60,26 @@
                     <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white">
                         Chỉnh sửa
                     </a>
-                    <% if (row[i].status ==0) { %>
-                        <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white" href="/user/unactive/<%= row[i].ID %>">
-                            Mở khóa
-                        </a>
+                    <% if (row[i].status===1) { %>
+                        <form action="/user/unactive/<%= row[i].ID %>" method="POST" style="display:inline;"
+                            onsubmit="return confirm('Bạn có chắc chắn muốn khóa người dùng này không?');">
+                            <button type="submit"
+                                class="btn btn-danger btn-sm btn-rounded text-decoration-none text-white">
+                                Khóa
+                            </button>
+                        </form>
                         <% } else { %>
-                            <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white" href="/user/active/<%= row[i].ID %>">
-                                Khóa </a>
+                            <form action="/user/active/<%= row[i].ID %>" method="POST" style="display:inline;"
+                                onsubmit="return confirm('Bạn có chắc chắn muốn khóa người dùng này không?');">
+                                <button type=" submit"
+                                    class="btn btn-success btn-sm btn-rounded text-decoration-none text-white">
+                                    Mở khóa
+                                </button>
+                            </form>
                             <% } %>
                 </td>
             </tr>
             <% } %>
     </tbody>
 </table>
-
-<!-- <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addUserModalLabel">Thêm người dùng</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form class="row g-3 mt-3" action="/user/add" method="POST">
-                    <div class="col-md-6">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="inputPassword4" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="inputPassword4" name="password">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="inputEmail4" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="inputEmail4" name="email">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="displayname" class="form-label">Displayname</label>
-                        <input type="text" class="form-control" id="displayname" name="fullname">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="sex" class="form-label">Sex</label>
-                        <select class="form-control" id="sex" name="sex" required>
-                            <option value="1">Nam</option>
-                            <option value="0">Nữ</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="inputAddress" class="form-label">Địa chỉ</label>
-                        <input type="text" class="form-control" id="inputAddress" name="address">
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary">Add User</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div> -->
 </div>
