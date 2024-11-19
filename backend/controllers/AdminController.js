@@ -1,6 +1,7 @@
 import eventModel from "../models/EventModel.js";
 import userModel from "../models/UserModel.js";
 import bcrypt from "bcrypt";
+
 const getHomePage = async (req, res) => {
   const users = await userModel.findAllUser();
   // console.log(users);

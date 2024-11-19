@@ -31,6 +31,7 @@ let redisStore = new RedisStore({
   prefix: "websukien:",
 });
 
+
 app.use(
   session({
     store: redisStore,
@@ -44,6 +45,11 @@ app.use(
     },
   })
 );
+//https://expressjs.com/en/api.html#:~:text=true%0A%7D)-,res.locals,-Use%20this%20property
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  next();
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
