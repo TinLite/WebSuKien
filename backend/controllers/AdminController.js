@@ -1,13 +1,32 @@
 import eventModel from "../models/EventModel.js";
-import User from "../SequelizeModels/SequelizeUserModel.js";
+import userModel from "../models/UserModel.js";
+import bcrypt from "bcrypt";
 const getHomePage = async (req, res) => {
-  const users = await User.findAll();
-  console.log(users);
+  const users = await userModel.findAllUser();
+  // console.log(users);
   res.render("home", { body: "user/list", row: users });
 };
-const addUser = (req, res) => {
-  res.render("home", { body: "user/add" });
+const addUser = async (req, res) => {
+  if (req.method === "GET") {
+    return res.render("home", { body: "user/add" });
+  } else {
+    const data = req.body;
+    data.password = await bcrypt.hash(data.password, 10);
+    const result = await userModel.addUser(data);
+    console.log(result);
+    return res.redirect("/");
+  }
 };
+const unActiveUser = async (req, res) => {
+  const { id } = req.body;
+  await userModel.unActiveUser(id);
+  return res.redirect("/");
+}
+const activeUser = async (req, res) => {
+  const { id } = req.body;
+  await userModel.activeUser(id);
+  return res.redirect("/");
+}
 
 const getAddEventPage = (req, res) => {
   res.render("addEvent");

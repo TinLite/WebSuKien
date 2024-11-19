@@ -19,7 +19,7 @@
         <tr>
             <th>Mssv</th>
             <th>Họ tên</th>
-            <th>Lớp</th>
+            <th>Số điện thoại</th>
             <th>Trạng thái</th>
             <th>Hành động</th>
         </tr>
@@ -28,32 +28,46 @@
         <% for (let i=0; i < row.length; i++ ) { %>
             <tr>
                 <td>
-                    <p class="fw-normal mb-1"><%= row[i].ID %></p>
-                    <!-- <p class="text-muted mb-0">IT department</p> -->
+                    <p class="fw-normal mb-1">
+                        <%= row[i].ID %>
+                    </p>
                 </td>
                 <td>
                     <div class="d-flex align-items-center">
-                        <img src="https://github.com/QuangTeoo.png" style="width: 45px; height: 45px"
-                            class="rounded-circle" />
                         <div class="ms-3">
-                            <p class="fw-bold mb-1"><%= row[i].username %></p>
-                            <p class="text-muted mb-0"><%= row[i].email %></p>
+                            <p class="fw-bold mb-1">
+                                <%= row[i].username %>
+                            </p>
+                            <p class="text-muted mb-0">
+                                <%= row[i].email %>
+                            </p>
                         </div>
                     </div>
                 </td>
                 <td>
-                    <p class="fw-normal mb-1">Software engineer</p>
+                    <p class="fw-normal mb-1">
+                        <%= row[i].phone %>
+                    </p>
                 </td>
                 <td>
-                    <p class="fw-normal mb-1">Đang hoạt động</p>
+                    <% if (row[i].status==0) { %>
+                        <p class="fw-normal mb-1">Đã khóa</p>
+                        <% } else { %>
+                            <p class="fw-normal mb-1">Đang hoạt động</p>
+                            <% } %>
                 </td>
                 <td class="text-decoration-none">
                     <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white">
                         Chỉnh sửa
                     </a>
-                    <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white">
-                        Khóa
-                    </a>
+                    <% if (row[i].status ==0) { %>
+                        <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white" href="/user/unactive/<%= row[i].ID %>">
+                            Mở khóa
+                        </a>
+                        <% } else { %>
+                            <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white" href="/user/active/<%= row[i].ID %>">
+                                Khóa </a>
+                            <% } %>
                 </td>
             </tr>
             <% } %>
