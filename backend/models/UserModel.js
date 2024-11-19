@@ -30,11 +30,17 @@ const activeUser = async (ID) => {
   );
   return result;
 };
+const getOneUser = async (ID) => {
+  const [user] = await connection.query("SELECT * FROM user WHERE ID = ?", [
+    ID,
+  ]);
+  return user;
+};
 const updateUser = async (data) => {
-  const { id, username, password, phone, email } = data;
+  const { username, password, phone, email,id } = data;
   const [result] = await connection.query(
     "UPDATE user SET username = ?, password = ?, phone = ?, email = ? WHERE ID = ?",
-    [username, password, phone, email, id]
+    [username, password, phone, email,id]
   );
   return result;
 };
@@ -54,4 +60,6 @@ export default {
   addUser,
   unActiveUser,
   activeUser,
+  getOneUser,
+  updateUser,
 };

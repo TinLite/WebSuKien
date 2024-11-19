@@ -12,7 +12,8 @@ export function initWebRoutes(app) {
 
   router.post("/user/unactive/:ID", AdminController.unActiveUser);
   router.post("/user/active/:ID", AdminController.activeUser);
-
+  router.get("/user/update/:ID", AdminController.updateUser);
+  router.post("/user/update/:ID", AdminController.updateUser);
   // Event
   router.get("/addevent", AdminController.getAddEventPage);
   router.post("/addevent", AdminController.addEvent);

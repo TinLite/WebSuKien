@@ -21,12 +21,34 @@ const unActiveUser = async (req, res) => {
   const ID = req.params.ID;
   await userModel.unActiveUser(ID);
   return res.redirect("/");
-}
+};
 const activeUser = async (req, res) => {
   const ID = req.params.ID;
   await userModel.activeUser(ID);
   return res.redirect("/");
-}
+};
+const updateUser = async (req, res) => {
+  const id = req.params.ID;
+  if (req.method === "GET") {
+    const [user] = await userModel.getOneUser(id);
+    console.log(user);
+    return res.render("home", { body: "user/update", row: user });
+  } else {
+    const data = req.body;
+    data.id = id;
+    if (!data.password || data.password === "") {
+      const [user] = await userModel.getOneUser(id);
+      data.password = user.password;
+      // console.log(data.password);
+    } else {
+      data.password = await bcrypt.hash(data.password, 10);
+      // console.log(data.password);
+    }
+    const result = await userModel.updateUser(data);
+    console.log(result);
+    return res.redirect("/");
+  }
+};
 
 const getAddEventPage = (req, res) => {
   res.render("addEvent");
@@ -81,4 +103,5 @@ export default {
   editEvent,
   unActiveUser,
   activeUser,
+  updateUser,
 };
