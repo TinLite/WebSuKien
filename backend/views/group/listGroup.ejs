@@ -1,0 +1,88 @@
+<div class="row mb-2">
+    <div class="mb-10">
+        <h2>
+            <strong>Quản lý nhóm</strong>
+        </h2>
+    </div>
+    <div class="col-md-10 mt-2 mb-2 mb-md-0">
+        <form action="/search" method="GET">
+            <input type="text" class="form-control" placeholder="Tìm kiếm..." name="query">
+        </form>
+    </div>
+    <div class="col-md-2  mt-2 d-flex justify-content-end">
+        <a href="/group/add" class="btn btn-primary ">
+            <i class="fa-solid fa-user-plus"></i>
+            Thêm nhóm
+        </a>
+    </div>
+</div>
+<table class="table align-middle mb-0 bg-white">
+    <thead class="bg-light">
+        <tr>
+            <th>Mã nhóm</th>
+            <th>Tên</th>
+            <th>Người quản lý</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td colspan="5" class="text-center">Không có dữ liệu</td>
+        </tr>
+
+        <tr>
+            <td>
+                <p class="fw-normal mb-1">
+
+                </p>
+            </td>
+            <td>
+                <div class="d-flex align-items-center">
+                    <div class="ms-3">
+                        <p class="fw-bold mb-1">
+
+                        </p>
+                        <p class="text-muted mb-0">
+
+                        </p>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <p class="fw-normal mb-1">
+
+            </td>
+            <td>
+
+                <p class="fw-normal mb-1">Đã khóa</p>
+
+                <p class="fw-normal mb-1">Đang hoạt động</p>
+
+            </td>
+            <td class="text-decoration-none">
+                <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white" href="#">
+                    Chỉnh sửa
+                </a>
+
+                <form action="#" method="POST" style="display:inline;"
+                    onsubmit="return confirm('Bạn có chắc chắn muốn khóa người dùng này không?');">
+                    <button type="submit" class="btn btn-danger btn-sm btn-rounded text-decoration-none text-white">
+                        Khóa
+                    </button>
+                </form>
+                <form action="#" method="POST" style="display:inline;"
+                    onsubmit="return confirm('Bạn có chắc chắn muốn khóa người dùng này không?');">
+                    <button type=" submit" class="btn btn-success btn-sm btn-rounded text-decoration-none text-white">
+                        Mở khóa
+                    </button>
+                </form>
+
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+</div>

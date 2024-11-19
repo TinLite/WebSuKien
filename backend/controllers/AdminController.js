@@ -3,9 +3,20 @@ import userModel from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 
 const getHomePage = async (req, res) => {
-  const users = await userModel.findAllUser();
+  const page = parseInt(req.query.page) || 1;
+  const limit = 5;
+  const offset = (page - 1) * limit;
+  const { total, users } = await userModel.findAllUser(limit, offset);
+  console.log(total);
+  console.log(users);
+  const totalPages = Math.ceil(total / limit);
   // console.log(users);
-  res.render("home", { body: "user/list", row: users });
+  res.render("home", {
+    body: "user/list",
+    row: users,
+    currentPage: page,
+    totalPages: totalPages,
+  });
 };
 const addUser = async (req, res) => {
   if (req.method === "GET") {
@@ -49,6 +60,31 @@ const updateUser = async (req, res) => {
     console.log(result);
     return res.redirect("/");
   }
+};
+
+const searchUser = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 5;
+  const offset = (page - 1) * limit;
+  const query = req.query.query ? req.query.query.toLowerCase() : "";
+  if (query == "") {
+    return res.redirect("/");
+  }
+  let data;
+  if (query) {
+    data = await userModel.searchUser(query, limit, offset);
+  } else {
+    data = await userModel.findAllUser(limit, offset);
+  }
+  const { total, users } = data;
+  const totalPages = Math.ceil(total / limit);
+  res.render("home", {
+    body: "user/list",
+    row: users,
+    currentPage: page,
+    totalPages: totalPages,
+    query: query,
+  });
 };
 
 const getAddEventPage = (req, res) => {
@@ -105,4 +141,5 @@ export default {
   unActiveUser,
   activeUser,
   updateUser,
+  searchUser,
 };

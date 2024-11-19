@@ -49,7 +49,7 @@ export function middlewareJwtAdmin(req, res, next) {
   next();
 }
 export function middlewareSessionAdmin(req, res, next) {
-  console.log(req.session);
+  // console.log(req.session);
   if (!req.session.user || req.session.user.role !== "admin") {
     return res.redirect("/login");
   }
