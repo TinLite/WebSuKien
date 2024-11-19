@@ -53,6 +53,11 @@ function findOneByEmail(email) {
   return connection.query("SELECT * FROM user WHERE email = ?", [email]);
 }
 
+function findOneByEmailOrUsernameOrPhone(entry) {
+    return connection.query('SELECT * FROM user WHERE email = ? OR username = ? OR phone = ?', [entry, entry, entry]);
+}
+
+
 export default {
   findById,
   findOneByEmail,
@@ -62,4 +67,5 @@ export default {
   activeUser,
   getOneUser,
   updateUser,
+  findOneByEmailOrUsernameOrPhone,
 };
