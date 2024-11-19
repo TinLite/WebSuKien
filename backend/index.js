@@ -7,6 +7,7 @@ import { createClient } from "redis";
 import RedisStore from "connect-redis";
 import cors from "cors";
 import viewEngine from "./Engine/viewEngine.js";
+import cookieParser from "cookie-parser";
 const PORT = process.env.APP_PORT || 8080;
 
 const app = express();
@@ -18,6 +19,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(cookieParser());
 
 let redisClient = createClient();
 redisClient.connect().catch(console.error);

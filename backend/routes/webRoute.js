@@ -1,6 +1,7 @@
 import { Router } from "express";
 import LoginApiController from "../controllers/api/LoginApiController.js";
 import AdminController from "../controllers/AdminController.js";
+import { middlewareJwtFetchUser } from "../middlewares/MiddlewareAuth.js";
 
 const router = Router();
 
@@ -20,6 +21,9 @@ export function initWebRoutes(app) {
   router.get("/viewallevent", AdminController.getViewAllEventPage);
   router.get("/editevent/:id", AdminController.getEditEventPage);
   router.post("/editevent", AdminController.editEvent);
+
+  // API
+  router.use("/api", middlewareJwtFetchUser);
   router.post("/api/login", LoginApiController.postLogin);
 
   app.use(router);

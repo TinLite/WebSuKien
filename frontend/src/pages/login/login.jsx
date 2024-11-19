@@ -47,7 +47,7 @@ export function LoginPage() {
                 {success && <AlertSuccess onClose={onAlertClose}>{success}</AlertSuccess>}
                 <h2>Đăng nhập</h2>
                 <div className="mb-3">
-                    <label htmlFor="username" className="form-label">Số điện thoại/Email</label>
+                    <label htmlFor="username" className="form-label w-100">Số điện thoại/Email</label>
                     <input
                         type="text"
                         id='username'
@@ -57,10 +57,11 @@ export function LoginPage() {
                         onInput={(e) =>
                             setLoginCredential({ ...loginCredential, username: e.currentTarget.value })
                         }
+                        autoFocus
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor='password' className='form-label'>
+                    <label htmlFor='password' className='form-label w-100'>
                         Mật khẩu:
                     </label>
                     <input
