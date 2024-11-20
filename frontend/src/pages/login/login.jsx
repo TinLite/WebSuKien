@@ -1,9 +1,14 @@
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AlertDanger, AlertSuccess } from '../../components/alert';
+import { UserContext } from '../../context/user-context';
 import { login } from '../../repositories/AuthRepository';
-import './login.css'
-import { useState } from 'react';
+import { getProfile } from '../../repositories/UserRepository';
+import './login.css';
 
 export function LoginPage() {
+    const {user, setUser} = useContext(UserContext);
+    const navigate = useNavigate();
 
     const [loginCredential, setLoginCredential] = useState({
         username: "",
@@ -13,6 +18,13 @@ export function LoginPage() {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
 
+    useEffect(() => {
+        if (user) {
+            // Người dùng đã đăng nhập, chuyển hướng về trang chính
+            navigate("/");
+        }
+    }, [user]);
+
     const handleLogin = (e) => {
         e.preventDefault();
         setError(null);
@@ -20,6 +32,9 @@ export function LoginPage() {
         login(loginCredential.username, loginCredential.password)
             .then((response) => {
                 setSuccess("Đăng nhập thành công");
+                getProfile().then((response) => {
+                    setUser(response.data);
+                });
             })
             .catch((error) => {
                 setError(error.response.data.message);

@@ -6,3 +6,9 @@ export function login(email, password) {
         withCredentials: true,
     });
 }
+
+export function logout(email, password) {
+    return axios.post(`${API_URL}/logout`, { email, password }, {
+        withCredentials: true,
+    });
+}

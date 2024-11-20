@@ -5,13 +5,14 @@ import UserApiController from "../controllers/api/UserApiController.js";
 import AuthController from "../controllers/AuthController.js";
 import GroupController from "../controllers/GroupController.js";
 import UserController from "../controllers/UserController.js";
-import { middlewareJwtFetchUser, middlewareSessionAdmin } from "../middlewares/MiddlewareAuth.js";
+import { middlewareJwtAuth, middlewareJwtFetchUser, middlewareSessionAdmin } from "../middlewares/MiddlewareAuth.js";
 const router = Router();
 
 export function initWebRoutes(app) {
   // API
   router.use("/api", middlewareJwtFetchUser);
   router.post("/api/login", LoginApiController.postLogin);
+  router.post("/api/logout", middlewareJwtAuth, LoginApiController.postLogout);
   router.get("/api/users/profile/:id?", UserApiController.getProfile);
 
   //Login

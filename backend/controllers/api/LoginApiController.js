@@ -49,6 +49,18 @@ async function postLogin(req, res) {
   });
 }
 
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @returns
+ */
+async function postLogout(req, res) {
+  res.clearCookie('jwt');
+  res.end();
+}
+
 export default {
   postLogin,
+  postLogout
 };
