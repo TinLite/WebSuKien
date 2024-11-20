@@ -1,17 +1,18 @@
 import { Router } from "express";
-import LoginApiController from "../controllers/api/LoginApiController.js";
 import AdminController from "../controllers/AdminController.js";
-import UserController from "../controllers/UserController.js";
+import LoginApiController from "../controllers/api/LoginApiController.js";
+import UserApiController from "../controllers/api/UserApiController.js";
 import AuthController from "../controllers/AuthController.js";
 import GroupController from "../controllers/GroupController.js";
-import { middlewareJwtFetchUser } from "../middlewares/MiddlewareAuth.js";
-import { middlewareSessionAdmin } from "../middlewares/MiddlewareAuth.js";
+import UserController from "../controllers/UserController.js";
+import { middlewareJwtFetchUser, middlewareSessionAdmin } from "../middlewares/MiddlewareAuth.js";
 const router = Router();
 
 export function initWebRoutes(app) {
   // API
   router.use("/api", middlewareJwtFetchUser);
   router.post("/api/login", LoginApiController.postLogin);
+  router.get("/api/users/profile/:id?", UserApiController.getProfile);
 
   //Login
   router.get("/login", AuthController.login);

@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import { Request, Response } from "express";
 import UserModel from "../../models/UserModel";
 import JwtService from "../../services/JwtService";
 
@@ -18,7 +18,7 @@ async function postLogin(req, res) {
     });
   }
 
-  const [data] = await UserModel.findOneByEmailOrUsernameOrPhone(email);
+  const [data] = await UserModel.findOneByEmailOrUsernameOrPhoneWithPassword(email);
   if (data.length === 0) {
     return res.status(401).send({
       message: "Invalid email or password",

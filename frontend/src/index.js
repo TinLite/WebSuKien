@@ -5,12 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider } from 'react-router-dom';
 import { route } from './Route';
+import { UserProvider } from './context/user-context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* <App /> */}
-    <RouterProvider router={route} />
+    <UserProvider>
+      <RouterProvider router={route} />
+    </UserProvider>
   </React.StrictMode>
 );
 

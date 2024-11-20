@@ -65,14 +65,14 @@ const searchUser = async (query,limit,offset) => {
 //   return users[0].total;
 // };
 function findById(id) {
-  return connection.query("SELECT * FROM user WHERE id = ?", [id]);
+  return connection.query("SELECT ID, username, phone, email, role, status FROM user WHERE id = ?", [id]);
 }
 
 function findOneByEmail(email) {
   return connection.query("SELECT * FROM user WHERE email = ?", [email]);
 }
 
-function findOneByEmailOrUsernameOrPhone(entry) {
+function findOneByEmailOrUsernameOrPhoneWithPassword(entry) {
   return connection.query(
     "SELECT * FROM user WHERE email = ? OR username = ? OR phone = ?",
     [entry, entry, entry]
@@ -88,6 +88,6 @@ export default {
   activeUser,
   getOneUser,
   updateUser,
-  findOneByEmailOrUsernameOrPhone,
+  findOneByEmailOrUsernameOrPhoneWithPassword,
   searchUser,
 };

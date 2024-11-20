@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import JwtService from "../services/JwtService";
 import UserModel from "../models/UserModel";
+import JwtService from "../services/JwtService";
 
 /**
  * Lấy thông tin xác thực từ jwt
