@@ -31,6 +31,9 @@ export function initWebRoutes(app) {
 
   //Group
   router.get("/group", GroupController.getAllGroups);
+
+  router.get("/group/add", GroupController.addGroup);
+  router.post("/group/add", GroupController.addGroup);
   // Event
   router.get("/addevent", AdminController.getAddEventPage);
   router.post("/addevent", AdminController.addEvent);

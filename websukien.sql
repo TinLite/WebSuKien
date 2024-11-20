@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2024 at 10:06 AM
+-- Generation Time: Nov 20, 2024 at 04:44 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -65,15 +65,23 @@ CREATE TABLE `event_group_register` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group`
+-- Table structure for table `groups`
 --
 
-CREATE TABLE `group` (
+CREATE TABLE `groups` (
   `group_id` int(11) NOT NULL,
   `id_owner` varchar(128) NOT NULL,
   `group_name` varchar(128) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `groups`
+--
+
+INSERT INTO `groups` (`group_id`, `id_owner`, `group_name`, `status`) VALUES
+(1, '2101598', 'Kỹ Thuật Phần Mềm', 0),
+(2, '2002', 'Hệ thống thông tin', 1);
 
 -- --------------------------------------------------------
 
@@ -122,7 +130,9 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`ID`, `username`, `password`, `phone`, `email`, `role`, `status`) VALUES
 ('', 'teo', '$2b$10$/b2wojgccSGEZKURTYRqXO04whaG8J1c8nQYoUbLYIcJxV98Epfz2', '', '', 'admin', 1),
-('1', 'admin', '$2b$10$b64a3nAkgLiNitZlkkxGpumX2XR0wbuO31ttKtbnbaVChBQ521soS', '', '', 'admin', 1);
+('1', 'admin', '$2b$10$b64a3nAkgLiNitZlkkxGpumX2XR0wbuO31ttKtbnbaVChBQ521soS', '', '', 'admin', 1),
+('2002', 'Trần Thị Kim Ngân', '$2b$10$0Pa2RtsbV96/n2n1mQnhSOcx/AY6VAbj/NOvBAspBFoc0te0TyX3S', '123', 'trankimngan@gmail', 'user', 1),
+('2101598', 'Lê Quang Tiến', '$2b$10$uPuacI9ifpBxtmL7OOxSM.AZtuZxY3.7gJMtGKJbSnoDIpJPA15DG', '0775852135', 'lqtien2101598@student.ctuet.edu.vn', 'user', 1);
 
 --
 -- Indexes for dumped tables
@@ -150,9 +160,9 @@ ALTER TABLE `event_group_register`
   ADD KEY `group_id` (`group_id`);
 
 --
--- Indexes for table `group`
+-- Indexes for table `groups`
 --
-ALTER TABLE `group`
+ALTER TABLE `groups`
   ADD PRIMARY KEY (`group_id`),
   ADD KEY `id_owner` (`id_owner`);
 
@@ -188,10 +198,10 @@ ALTER TABLE `event`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `group`
+-- AUTO_INCREMENT for table `groups`
 --
-ALTER TABLE `group`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `groups`
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `history`
@@ -221,19 +231,19 @@ ALTER TABLE `event`
 --
 ALTER TABLE `event_group_register`
   ADD CONSTRAINT `event_group_register_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`ID`),
-  ADD CONSTRAINT `event_group_register_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`);
+  ADD CONSTRAINT `event_group_register_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`);
 
 --
--- Constraints for table `group`
+-- Constraints for table `groups`
 --
-ALTER TABLE `group`
-  ADD CONSTRAINT `group_ibfk_1` FOREIGN KEY (`id_owner`) REFERENCES `user` (`ID`);
+ALTER TABLE `groups`
+  ADD CONSTRAINT `groups_ibfk_1` FOREIGN KEY (`id_owner`) REFERENCES `user` (`ID`);
 
 --
 -- Constraints for table `group_member`
 --
 ALTER TABLE `group_member`
-  ADD CONSTRAINT `group_member_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`),
+  ADD CONSTRAINT `group_member_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`),
   ADD CONSTRAINT `group_member_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`ID`);
 
 --
