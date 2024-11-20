@@ -1,0 +1,25 @@
+<div class="card">
+    <div class="card-header text-center">
+        <h3 class="card-title">Cập nhật thông tin nhóm</h3>
+    </div>
+    <div class="card-body">
+        <form action="/group/update/<%= row.group_id %>" method="POST">
+            <div class="mb-3">
+                <label for="id" class="form-label">Mã nhóm</label>
+                <input type="text" class="form-control" id="id" name="id" value="<%= row.group_id %>" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="id_owner" class="form-label">Mã số sinh viên quản lý </label>
+                <input type="text" class="form-control" id="id_owner" name="id_owner" value="<%= row.id_owner %>" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="group_name" class="form-label">Tên nhóm</label>
+                <input type="text" class="form-control" id="group_name" name="group_name" value="<%= row.group_name %>" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Cập nhật nhóm</button>
+        </form>
+    </div>
+    <div class="card-footer text-center">
+        <a href="/group" class="text-decoration-none">Quay lại danh sách nhóm</a>
+    </div> 
+</div>

@@ -51,8 +51,8 @@ const updateUser = async (data) => {
 const searchUser = async (query,limit,offset) => {
   query = `%${query}%`;
   const [users] = await connection.query(
-    "SELECT * FROM user WHERE (username LIKE ? or ID LIKE ?  or phone LIKE ?) AND role = 'user'",
-    [query, query, query]
+    "SELECT * FROM user WHERE (username LIKE ? or ID LIKE ?  or phone LIKE ?) AND role = 'user' LIMIT ? OFFSET ?",
+    [query, query, query,parseInt(limit), parseInt(offset)]
   );
   const [[{ total }]] = await connection.query(
     "SELECT COUNT(*) as total FROM user WHERE (username LIKE ? or ID LIKE ?  or phone LIKE ?) AND role = 'user'",
@@ -60,10 +60,10 @@ const searchUser = async (query,limit,offset) => {
   );
   return { total, users };
 };
-const countUsers = async () => {
-  const [users] = await connection.query("SELECT COUNT(*) as total FROM user");
-  return users[0].total;
-};
+// const countUsers = async () => {
+//   const [users] = await connection.query("SELECT COUNT(*) as total FROM user");
+//   return users[0].total;
+// };
 function findById(id) {
   return connection.query("SELECT * FROM user WHERE id = ?", [id]);
 }

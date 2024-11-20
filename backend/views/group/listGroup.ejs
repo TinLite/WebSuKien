@@ -5,7 +5,7 @@
         </h2>
     </div>
     <div class="col-md-10 mt-2 mb-2 mb-md-0">
-        <form action="/search" method="GET">
+        <form action="/group/search" method="GET">
             <input type="text" class="form-control" placeholder="Tìm kiếm..." name="query">
         </form>
     </div>
@@ -27,61 +27,65 @@
         </tr>
     </thead>
     <tbody>
-
-        <tr>
-            <td colspan="5" class="text-center">Không có dữ liệu</td>
-        </tr>
-
-        <tr>
-            <td>
-                <p class="fw-normal mb-1">
-
-                </p>
-            </td>
-            <td>
-                <div class="d-flex align-items-center">
-                    <div class="ms-3">
-                        <p class="fw-bold mb-1">
-
-                        </p>
-                        <p class="text-muted mb-0">
-
-                        </p>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">
-
-            </td>
-            <td>
-
-                <p class="fw-normal mb-1">Đã khóa</p>
-
-                <p class="fw-normal mb-1">Đang hoạt động</p>
-
-            </td>
-            <td class="text-decoration-none">
-                <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white" href="#">
-                    Chỉnh sửa
-                </a>
-
-                <form action="#" method="POST" style="display:inline;"
-                    onsubmit="return confirm('Bạn có chắc chắn muốn khóa người dùng này không?');">
-                    <button type="submit" class="btn btn-danger btn-sm btn-rounded text-decoration-none text-white">
-                        Khóa
-                    </button>
-                </form>
-                <form action="#" method="POST" style="display:inline;"
-                    onsubmit="return confirm('Bạn có chắc chắn muốn khóa người dùng này không?');">
-                    <button type=" submit" class="btn btn-success btn-sm btn-rounded text-decoration-none text-white">
-                        Mở khóa
-                    </button>
-                </form>
-
-            </td>
-        </tr>
-
+        <% if (row.length===0) { %>
+            <tr>
+                <td colspan="5" class="text-center">Không có dữ liệu</td>
+            </tr>
+            <% } %>
+                <% for (let i=0; i < row.length ; i++ ) { %>
+                    <tr>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                <%= row[i].group_id %>
+                            </p>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1">
+                                        <%= row[i].group_name %>
+                                    </p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="fw-normal mb-1">
+                                <%= row[i].username %>
+                            </p>
+                        </td>
+                        <td>
+                            <% if (row[i].status==0) { %>
+                                <p class="fw-normal mb-1">Đã khóa</p>
+                                <% } else { %>
+                                    <p class="fw-normal mb-1">Đang hoạt động</p>
+                                    <% } %>
+                        </td>
+                        <td class="text-decoration-none">
+                            <a type="button" class="btn btn-primary btn-sm btn-rounded text-decoration-none text-white"
+                                href="/group/update/<%= row[i].group_id %>">
+                                Chỉnh sửa
+                            </a>
+                            <% if (row[i].status==1){ %>
+                                <form action="/group/unactive/<%= row[i].group_id %>" method="POST"
+                                    style="display:inline;"
+                                    onsubmit="return confirm('Bạn có chắc chắn muốn khóa nhóm không?');">
+                                    <button type="submit"
+                                        class="btn btn-danger btn-sm btn-rounded text-decoration-none text-white">
+                                        Khóa
+                                    </button>
+                                </form>
+                                <% } else { %>
+                                    <form action="/group/active/<%= row[i].group_id %>" method="POST"
+                                        style="display:inline;" onsubmit="return confirm('Mở khóa nhóm này ?');">
+                                        <button type=" submit"
+                                            class="btn btn-success btn-sm btn-rounded text-decoration-none text-white">
+                                            Mở khóa
+                                        </button>
+                                    </form>
+                                    <% } %>
+                        </td>
+                    </tr>
+                    <% } %>
     </tbody>
 </table>
 
