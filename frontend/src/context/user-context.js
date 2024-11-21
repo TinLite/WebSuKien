@@ -11,7 +11,11 @@ export const UserProvider = ({ children }) => {
         getProfile().then((response) => {
             setUser(response.data);
         }).catch((error) => {
-            console.error(error);
+            if (error.response) {
+                console.log(error.response.data);
+            } else {
+                console.log(error.message);
+            }
         });
     }, []);
     return (
