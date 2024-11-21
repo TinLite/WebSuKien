@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import UserModel from "../../models/UserModel";
 import JwtService from "../../services/JwtService";
+import { validationResult } from "express-validator";
 
 /**
  *
@@ -11,17 +12,15 @@ import JwtService from "../../services/JwtService";
  */
 async function postLogin(req, res) {
   const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(401).send({
-      message: "Missing email or password",
-      code: "LOGIN_MISSING_EMAIL_OR_PASSWORD",
-    });
-  }
+  // const result = validationResult(req);
+  // if (result.isEmpty)
 
-  const [data] = await UserModel.findOneByEmailOrUsernameOrPhoneWithPassword(email);
+  const [data] = await UserModel.findOneByEmailOrUsernameOrPhoneWithPassword(
+    email
+  );
   if (data.length === 0) {
     return res.status(401).send({
-      message: "Invalid email or password",
+      message: "Invalid email or password 2",
       code: "LOGIN_INVALID_EMAIL_OR_PASSWORD",
     });
   }
@@ -30,18 +29,18 @@ async function postLogin(req, res) {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     return res.status(401).send({
-      message: "Invalid email or password",
+      message: "Invalid email or password 3",
       code: "LOGIN_INVALID_EMAIL_OR_PASSWORD",
     });
   }
 
   const token = JwtService.sign({
     userId: user.ID,
-  })
+  });
 
-  res.cookie('jwt', token, {
+  res.cookie("jwt", token, {
     httpOnly: true,
-  })
+  });
 
   return res.send({
     message: "Login successfully",
@@ -56,11 +55,11 @@ async function postLogin(req, res) {
  * @returns
  */
 async function postLogout(req, res) {
-  res.clearCookie('jwt');
+  res.clearCookie("jwt");
   res.end();
 }
 
 export default {
   postLogin,
-  postLogout
+  postLogout,
 };

@@ -11,6 +11,11 @@ const addGroup = async (data) => {
     "INSERT INTO group_member (group_id, user_id) VALUES (?,?)",
     [group_id, id_owner]
   );
+  const role = "manager";
+  await connection.query(
+    "UPDATE user SET role = ?  WHERE ID = ?",
+    [role, id_owner]
+  );
   return{ group_id, id_owner, group_name, status: 1 };
 };
 

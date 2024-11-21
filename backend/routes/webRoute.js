@@ -1,11 +1,17 @@
 import { Router } from "express";
+import { body, validationResult } from "express-validator";
 import AdminController from "../controllers/AdminController.js";
 import LoginApiController from "../controllers/api/LoginApiController.js";
 import UserApiController from "../controllers/api/UserApiController.js";
 import AuthController from "../controllers/AuthController.js";
 import GroupController from "../controllers/GroupController.js";
 import UserController from "../controllers/UserController.js";
-import { middlewareJwtAuth, middlewareJwtFetchUser, middlewareSessionAdmin } from "../middlewares/MiddlewareAuth.js";
+import { validatorLogin } from "../middlewares/Validator.js";
+import {
+  middlewareJwtAuth,
+  middlewareJwtFetchUser,
+  middlewareSessionAdmin,
+} from "../middlewares/MiddlewareAuth.js";
 const router = Router();
 
 export function initWebRoutes(app) {
@@ -13,8 +19,22 @@ export function initWebRoutes(app) {
   router.use("/api", middlewareJwtFetchUser);
   router.post("/api/login", LoginApiController.postLogin);
   router.post("/api/logout", middlewareJwtAuth, LoginApiController.postLogout);
-  router.get("/api/users/profile/:id?", UserApiController.getProfile);
-
+  router.get(
+    "/api/users/profile/:id?",
+    middlewareJwtAuth,
+    UserApiController.getProfile
+  );
+  //API/User
+  router.get(
+    "/api/user/history",
+    middlewareJwtAuth,
+    UserApiController.getAllHistory
+  );
+  router.get(
+    "/api/user/historyUpcoming",
+    middlewareJwtAuth,
+    UserApiController.getAllHistoryComingSoon
+  );
   //Login
   router.get("/login", AuthController.login);
   router.post("/login", AuthController.login);

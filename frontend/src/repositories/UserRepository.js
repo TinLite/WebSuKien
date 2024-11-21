@@ -7,3 +7,9 @@ export function getProfile(id = "") {
         withCredentials: true,
     });
 }
+
+export function getHistory(){
+    return axios.get(`${API_URL}/user/history`, {
+        withCredentials: true,
+    });
+}
