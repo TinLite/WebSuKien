@@ -31,10 +31,21 @@ export function initWebRoutes(app) {
     UserApiController.getAllHistory
   );
   router.get(
-    "/api/user/historyUpcoming",
+    "/api/user/eventUpcoming",
     middlewareJwtAuth,
     UserApiController.getAllHistoryComingSoon
   );
+  router.post(
+    "/api/user/attendance/:eventId",
+    middlewareJwtAuth,
+    UserApiController.addAttendanceEvent
+  );
+  router.post(
+    "/api/user/unattendance/:eventId",
+    middlewareJwtAuth,
+    UserApiController.unAttendanceEvent
+  );
+  router.get("/api/user/event", middlewareJwtAuth, UserApiController.getAllEvent);
   //Login
   router.get("/login", AuthController.login);
   router.post("/login", AuthController.login);

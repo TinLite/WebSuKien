@@ -23,7 +23,7 @@ export function History() {
           ) : (
             data.map((history) => (
               <div className="list-group" key={history.ID}>
-                <a href="#" className="list-group-item list-group-item-action">
+                <a href="/" className="list-group-item list-group-item-action">
                   <div className="d-flex justify-content-between">
                     <h5 className="mb-1">{history.name}</h5>
                     <small>{history.occasion_date}</small>

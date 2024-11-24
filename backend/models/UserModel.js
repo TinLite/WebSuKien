@@ -88,11 +88,40 @@ async function getAllHistory(id) {
 }
 async function getAllHistoryComingSoon(id) {
   const [history] = await connection.query(
-    "SELECT e.*, a.*  FROM event e, attendance a WHERE id_user = ? AND e.ID = a.event_id AND e.occasion_date > CURRENT_DATE()",
+    "SELECT e.*, a.*  FROM event e, attendance a WHERE id_user = ? AND e.ID = a.id_event AND e.occasion_date > CURRENT_DATE()",
     [id]
   );
   return history;
 }
+async function deleteAttendanceEvent(userId, eventId) {
+  const [del] = await connection.query(
+    "DELETE FROM attendance WHERE id_user = ? AND id_event = ?",
+    [userId, eventId]
+  );
+  return del;
+}
+function getattendanceEvent(userId, eventId) {
+  return connection.query(
+    "SELECT * FROM attendance WHERE id_user = ? AND id_event = ?",
+    [userId, eventId]
+  );
+}
+async function addAttendanceEvent(userId, eventId) {
+  const [add] = await connection.query(
+    "INSERT INTO attendance (id_user, id_event, status) VALUES (?, ?, ?)",
+    [userId, eventId, 1]
+  );
+  return add;
+}
+async function getAllEventMaybeJoin(userId) {
+  const [events] = await connection.query(
+    "SELECT e.* FROM event e, event_group_register egr, groups g, group_member gm WHERE gm.user_id = ? AND gm.group_id = g.group_id AND g.group_id = egr.group_id AND egr.event_id = e.ID  AND e.id_creator = g.id_owner;",
+    [userId]
+  );
+  console.log(events);
+  return events;
+}
+
 export default {
   findById,
   findOneByEmail,
@@ -106,4 +135,8 @@ export default {
   searchUser,
   getAllHistory,
   getAllHistoryComingSoon,
+  deleteAttendanceEvent,
+  addAttendanceEvent,
+  getattendanceEvent,
+  getAllEventMaybeJoin,
 };
