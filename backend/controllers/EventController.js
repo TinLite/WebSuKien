@@ -7,8 +7,14 @@ const getAddEventPage = (req, res) => {
 const addEvent = async (req, res) => {
   const data = req.body;
   // lấy id người dùng đã đăng nhập trong session
-  data.idCreator = 1;
-  await eventModel.addEvent(data);
+
+  data.idCreator = req.session.user.userId;
+  const [row] = await eventModel.addEvent(data);
+  if (!data.group_id) {
+    return res.redirect("/viewAllEvent");
+  }
+  const idEvent = row.insertId;
+  await eventModel.addEventToGroup(data.group_id, idEvent);
   return res.redirect("/viewAllEvent");
 };
 const deleteEvent = async (req, res) => {
@@ -41,6 +47,11 @@ const getEditEventPage = async (req, res) => {
 const editEvent = async (req, res) => {
   const data = req.body;
   await eventModel.editEvent(data);
+  await eventModel.deleteEventFromGroup(data.idevent);
+  if (!data.group_id) {
+    return res.redirect("/viewAllEvent");
+  }
+  await eventModel.addEventToGroup(data.idevent, data.group_id);
   return res.redirect("/viewAllEvent");
 };
 export default {

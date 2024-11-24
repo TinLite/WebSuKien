@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { body, validationResult } from "express-validator";
-import AdminController from "../controllers/AdminController.js";
+import EventController from "../controllers/EventController.js";
+import EventApiController from "../controllers/api/EventApiController.js";
 import LoginApiController from "../controllers/api/LoginApiController.js";
 import UserApiController from "../controllers/api/UserApiController.js";
 import AuthController from "../controllers/AuthController.js";
@@ -35,6 +36,33 @@ export function initWebRoutes(app) {
     middlewareJwtAuth,
     UserApiController.getAllHistoryComingSoon
   );
+  // API/Event
+  router.post("/api/addevent", middlewareJwtAuth, EventApiController.addEvent);
+  router.post(
+    "/api/editevent",
+    middlewareJwtAuth,
+    EventApiController.editEvent
+  );
+  router.post(
+    "/api/deleteevent",
+    middlewareJwtAuth,
+    EventApiController.deleteEvent
+  );
+  router.get(
+    "/api/viewallevent",
+    middlewareJwtAuth,
+    EventApiController.getAllEvents
+  );
+  router.get(
+    "/api/editevent/:id",
+    middlewareJwtAuth,
+    EventApiController.getEventById
+  );
+  router.get(
+    "/api/geteventbyidcreater",
+    middlewareJwtAuth,
+    EventApiController.getEventByIdCreater
+  );
   //Login
   router.get("/login", AuthController.login);
   router.post("/login", AuthController.login);
@@ -63,12 +91,12 @@ export function initWebRoutes(app) {
   router.post("/group/update/:group_id", GroupController.updateGroup);
 
   // Event
-  router.get("/addevent", AdminController.getAddEventPage);
-  router.post("/addevent", AdminController.addEvent);
-  router.post("/deleteevent", AdminController.deleteEvent);
-  router.get("/viewallevent", AdminController.getViewAllEventPage);
-  router.get("/editevent/:id", AdminController.getEditEventPage);
-  router.post("/editevent", AdminController.editEvent);
+  router.get("/addevent", EventController.getAddEventPage);
+  router.post("/addevent", EventController.addEvent);
+  router.post("/deleteevent", EventController.deleteEvent);
+  router.get("/viewallevent", EventController.getViewAllEventPage);
+  router.get("/editevent/:id", EventController.getEditEventPage);
+  router.post("/editevent", EventController.editEvent);
 
   app.use(router);
 }

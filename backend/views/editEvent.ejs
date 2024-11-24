@@ -38,6 +38,11 @@
                 <label for="description" class="form-label">Mô Tả</label>
                 <textarea class="form-control" id="description" rows="3" placeholder="Nhập mô tả sự kiện" name="des" ><%= data.event.des %></textarea>
               </div>
+
+              <div class="mb-3">
+                <label for="group-id" class="form-label">Mã nhóm (Để trống nếu dành cho tất cả)</label>
+                <input type="text" class="form-control" id="group-id" placeholder="Nhập tên sự kiện" name="group_id" value = "<%= data.event.ID %>">
+              </div>
         
               <div class="mb-3">
                 <label for="deadline" class="form-label">Thời Hạn Đăng Ký</label>
