@@ -31,7 +31,7 @@ export const route = createBrowserRouter([
         element: <ViewAllEvent />,
       },
       {
-        path: "/event/edit",
+        path: "/event/edit/:idEvent",
         element: <EditEvent />,
       },
       {

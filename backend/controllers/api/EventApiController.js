@@ -2,9 +2,7 @@ import eventModel from "../../models/EventModel";
 
 const addEvent = async (req, res) => {
   const data = req.body;
-  console.log(req.apiUser);
-  console.log(req.apiUser.ID);
-  data.idCreater = req.apiUser.ID;
+  data.idCreator = req.apiUser.ID;
   await eventModel.addEvent(data);
   return res.json({ message: "Tạo sự kiện thành công" });
 };
@@ -32,12 +30,11 @@ const getAllEvents = async (req, res) => {
   res.json(events);
 };
 const getEventById = async (req, res) => {
+  console.log("fxdfxdfxdffxd");
   const { id } = req.params;
   let [event] = await eventModel.getEventByID(id);
+  console.log(id);
   event = event[0];
-  event.reg_deadline = new Date(event.reg_deadline)
-    .toISOString()
-    .substring(0, 10);
   res.json(event);
 };
 const getEventByIdCreater = async (req, res) => {

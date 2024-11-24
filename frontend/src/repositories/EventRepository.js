@@ -10,3 +10,11 @@ export function addEvent(formData) {
     withCredentials: true,
   });
 }
+export function editEvent(formData) {
+  return axios.post(`${API_URL}/editevent`, formData, {
+    withCredentials: true,
+  });
+}
+export function getEventById(id) {
+  return axios.get(`${API_URL}/geteventbyid/${id}`, { withCredentials: true });
+}
