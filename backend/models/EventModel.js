@@ -19,9 +19,8 @@ const deleteEvent = (data) => {
   ]);
 };
 
-const getEventById = async (id) => {
-  const [rows] = await connection.query("SELECT * FROM `event` WHERE event.ID = ?", [id]);
-  return rows[0];
+const getEventByID = (id) => {
+  return connection.query("SELECT * FROM `event` WHERE event.ID = ?", [id]);
 };
 const editEvent = (data) => {
   return connection.query(
@@ -38,39 +37,6 @@ const getEventByName = (name) => {
     [name]
   );
 };
-const markAttendance = async (id_event, id_user) => {
-  const checkAttendance = await connection.query(
-    "SELECT * FROM attendance WHERE id_user = ? AND id_event = ?",
-    [id_user, id_event]
-  );
-
-  if (checkAttendance.length > 0) {
-    return connection.query(
-      "UPDATE attendance SET status = 0 WHERE id_user = ? AND id_event = ?",
-      [id_user, id_event]
-    );
-  } else {
-    return connection.query(
-      "INSERT INTO attendance (id_user, id_event, status) VALUES (?, ?, 1)",
-      [id_user, id_event]
-    );
-  }
-};
-const searchParticipants = (id_event, query) => {
-  return connection.query(
-    "SELECT user.username FROM `attendance` JOIN `user` ON attendance.id_user = user.ID WHERE attendance.id_event = ? AND user.username like ?",
-    [id_event, `%${query}%`]
-  );
-};
-const lockEvent = (id) => {
-  return connection.query("UPDATE `event` SET is_locked = 1 WHERE event.ID = ?", [id]);
-};
-const getParticipantsByEventId = (id_event) => {
-  return connection.query(
-    "SELECT user.username, attendance.status FROM attendance JOIN user ON attendance.id_user = user.ID WHERE attendance.id_event = ?",
-    [id_event]
-  );
-};
 export default {
   getParticipantsByEventId, 
   lockEvent,
@@ -80,6 +46,4 @@ export default {
   getEventById,
   editEvent, 
   getEventByName,
-  markAttendance,    
-  searchParticipants 
-}; 
+};

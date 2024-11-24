@@ -1,11 +1,12 @@
 import { Router } from "express";
-import AdminController from "../controllers/AdminController.js";
+import { body, validationResult } from "express-validator";
+import EventController from "../controllers/EventController.js";
+import EventApiController from "../controllers/api/EventApiController.js";
 import LoginApiController from "../controllers/api/LoginApiController.js";
 import UserApiController from "../controllers/api/UserApiController.js";
 import AuthController from "../controllers/AuthController.js";
 import GroupController from "../controllers/GroupController.js";
 import UserController from "../controllers/UserController.js";
-import EventApiController from "../controllers/api/EventApiController.js";
 import { middlewareJwtAuth, middlewareJwtFetchUser, middlewareSessionAdmin } from "../middlewares/MiddlewareAuth.js";
 const router = Router();
 
@@ -15,8 +16,6 @@ export function initWebRoutes(app) {
   router.post("/api/login", LoginApiController.postLogin);
   router.post("/api/logout", middlewareJwtAuth, LoginApiController.postLogout);
   router.get("/api/users/profile/:id?", UserApiController.getProfile);
-  router.get("/api/event/:id", EventApiController.getEventDetails);
-  router.post("/api/event/:id/lock", EventApiController.lockEvent);
 
   //Login
   router.get("/login", AuthController.login);
@@ -52,10 +51,6 @@ export function initWebRoutes(app) {
   router.get("/viewallevent", AdminController.getViewAllEventPage);
   router.get("/editevent/:id", AdminController.getEditEventPage);
   router.post("/editevent", AdminController.editEvent);
-  router.post("/lockEvent", AdminController.lockEvent);
-  router.post("/markAttendance", AdminController.markAttendance);
-  router.get("/detailevent/:id", AdminController.getEventDetails);
-  router.get("/eventpart/:id", AdminController.getEventParticipants);
 
   app.use(router);
 }

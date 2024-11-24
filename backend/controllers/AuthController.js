@@ -15,9 +15,11 @@ const login = async (req, res) => {
       return res.status(401).send("Username or Password not match");
     } else {
       req.session.user = {
+        userId: user[0].ID,
         username: user[0].username,
         role: user[0].role,
       };
+      // console.log(req.session);
       res.redirect("/");
     }
   }

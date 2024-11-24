@@ -1,6 +1,7 @@
 import e from "express";
 import userModel from "../models/UserModel";
 import bcrypt from "bcrypt";
+import {body, validationResult} from "express-validator";
 const getHomePage = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = 5;
