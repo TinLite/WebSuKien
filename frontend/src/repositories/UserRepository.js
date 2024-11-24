@@ -13,3 +13,9 @@ export function getHistory(){
         withCredentials: true,
     });
 }
+
+export function getEventUpcoming(){
+    return axios.get(`${API_URL}/user/eventUpcoming`, {
+        withCredentials: true,
+    });
+}

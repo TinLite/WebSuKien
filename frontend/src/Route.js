@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { LayoutMain } from "./layouts/main-layout";
 import { LoginPage } from "./pages/login/login";
 import { History } from "./pages/history/history";
+import { EventUpComing } from "./pages/history/eventupcoming";
 export const route = createBrowserRouter([
   {
     path: "/login",
@@ -20,6 +21,7 @@ export const route = createBrowserRouter([
       },
       {
         path: "/user/eventUpcoming",
+        element: <EventUpComing />,
       },
     ],
   },

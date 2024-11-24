@@ -14,23 +14,25 @@ export function History() {
     <div>
       <div className="bg-primary text-white text-center py-2">
         <h5>Lịch Sử Sự Kiện</h5>
-        <p>Theo dõi các sự kiện mới nhất của bạn</p>
+        <p>Sự kiện bạn đã tham gia</p>
       </div>
       <div className="container mx-auto">
         <div className="py-2">
-          {data.map((history) => (
-            <div className="list-group">
-              <a href="#" className="list-group-item list-group-item-action">
-                <div className="d-flex justify-content-between">
-                  <h5 className="mb-1">Hội thảo Công nghệ 2024</h5>
-                  <small>Ngày 22/11/2024</small>
-                </div>
-                <small className="mb-1">
-                  Tham gia hội thảo công nghệ để khám phá các xu hướng mới.
-                </small>
-              </a>
-            </div>
-          ))}
+          {data.length === 0 ? (
+            <div className="text-center">Không có lịch sử sự kiện</div>
+          ) : (
+            data.map((history) => (
+              <div className="list-group" key={history.ID}>
+                <a href="#" className="list-group-item list-group-item-action">
+                  <div className="d-flex justify-content-between">
+                    <h5 className="mb-1">{history.name}</h5>
+                    <small>{history.occasion_date}</small>
+                  </div>
+                  <small className="mb-1">{history.des}</small>
+                </a>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
