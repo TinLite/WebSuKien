@@ -40,7 +40,6 @@
                 <th scope="col">STT</th>
                 <th scope="col">Người tạo sự kiện</th>
                 <th scope="col">Tên sự kiện</th>
-                <th scope="col">Khóa</th>
                 <th scope="col">Ẩn</th>
                 <th scope="col">Thời hạn đăng ký</th>
                 <th scope="col">Thời gian tạo sự kiện</th>
@@ -55,10 +54,6 @@
                 <td><%= event.username %></td>
                 <td><%= event.name %></td>
                 <td>
-                  <input type="checkbox" <%= event.is_locked ? 'checked' : ''
-                  %>>
-                </td>
-                <td>
                   <input type="checkbox" <%= event.is_hidden ? 'checked' : ''
                   %>>
                 </td>
@@ -66,7 +61,7 @@
                 <td><%= event.created_at.toLocaleDateString('vi-VN') %></td>
                 <td><%= event.occasion_date.toLocaleDateString('vi-VN') %></td>
                 <td>
-                  <a class="btn btn-success" href="">Xem</a>
+                  <a class="btn btn-success" href="/detailevent/<%= event.ID %>">Xem</a>
                   <a class="btn btn-primary" href="/editevent/<%= event.ID %>"
                     >Sửa</a
                   >
@@ -82,6 +77,19 @@
                       hidden
                     />
                     <button class="btn btn-danger">Xóa</button>
+                  </form>
+                  <form method="post" action="/markAttendance" class="d-inline-block">
+                    <input type="text" name="id_event" value="<%= event.id_event %>" hidden />
+                    <input type="text" name="id_user" value="<%= event.id_user %>" hidden />
+                    <% if (event.attendanceStatus === 1) { %>
+                      <button class="btn btn-danger">Hủy điểm danh</button>
+                    <% } else { %>
+                      <button class="btn btn-warning">Điểm danh</button>
+                    <% } %>
+                  </form>
+                  <form method="post" action="/lockEvent" class="d-inline-block">
+                    <input type="text" name="idevent" value="<%= event.ID %>" hidden />
+                    <button class="btn btn-warning">Khóa đăng ký</button>
                   </form>
                 </td>
               </tr>

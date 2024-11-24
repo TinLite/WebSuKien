@@ -10,7 +10,7 @@ inp.question("Đang tạo tài khoản admin. Tên đăng nhập: ", (username) 
     var hashedPassword = bcrypt.hashSync(password, 10);
     inp.question("Email: ", (email) => {
       connection.pool.query(
-        `INSERT INTO user (ID,username, password,email, role) VALUES (1,'${username}', '${hashedPassword}','${email}', 'admin')`,
+        `INSERT INTO user (ID,username, password,email, role) VALUES (2,'${username}', '${hashedPassword}','${email}', 'admin')`,
         (err, result) => {
           if (err) {
             console.error(err);
