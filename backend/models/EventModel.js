@@ -20,7 +20,10 @@ const deleteEvent = (data) => {
 };
 
 const getEventByID = (id) => {
-  return connection.query("SELECT * FROM `event` WHERE event.ID = ?", [id]);
+  return connection.query(
+    "SELECT * FROM `event` JOIN `event_group_register` ON event_group_register.event_id = event.ID  WHERE event.ID = ?",
+    [id]
+  );
 };
 const editEvent = (data) => {
   return connection.query(
@@ -37,6 +40,26 @@ const getEventByName = (name) => {
     [name]
   );
 };
+
+const getEventByIdCreater = (id_creator) => {
+  return connection.query(
+    "SELECT user.username, event.* FROM `event` JOIN `user` ON event.id_creator = user.ID WHERE event.id_creator = ?",
+    [id_creator]
+  );
+};
+
+const addEventToGroup = (id_group, id_event) => {
+  return connection.query("INSERT INTO `event_group_register` VALUES (?, ?)", [
+    id_group,
+    id_event,
+  ]);
+};
+const deleteEventFromGroup = (id_event) => {
+  return connection.query(
+    "DELETE FROM `event_group_register` WHERE event_id = ?",
+    [id_event]
+  );
+};
 export default {
   addEvent,
   getAllEvent,
@@ -44,4 +67,7 @@ export default {
   getEventByID,
   editEvent,
   getEventByName,
+  getEventByIdCreater,
+  addEventToGroup,
+  deleteEventFromGroup,
 };

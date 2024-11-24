@@ -41,8 +41,8 @@ export function MainNavbar() {
               </NavLink>
             </li>
             <li>
-              <NavLink className="nav-link" to="#">
-                Danh sách sự kiện
+              <NavLink className="nav-link" to="/event/viewall">
+                Quản lý sự kiện
               </NavLink>
             </li>
             <li>

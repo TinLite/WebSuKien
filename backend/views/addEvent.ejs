@@ -31,7 +31,12 @@
             <form method="post" action="/addevent">
               <div class="mb-3">
                 <label for="name" class="form-label">Tên</label>
-                <input type="text" class="form-control" id="name" placeholder="Nhập tên sự kiện" name="name">
+                <input type="text" class="form-control" id="name" placeholder="Nhập tên sự kiện" name="name" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="group-id" class="form-label">Mã nhóm (Để trống nếu dành cho tất cả)</label>
+                <input type="text" class="form-control" id="group-id" placeholder="Nhập tên sự kiện" name="group_id">
               </div>
     
               <div class="mb-3">
@@ -41,12 +46,12 @@
         
               <div class="mb-3">
                 <label for="deadline" class="form-label">Thời Hạn Đăng Ký</label>
-                <input type="date" class="form-control" id="deadline" name="regDeadline">
+                <input type="date" class="form-control" id="deadline" name="regDeadline" required>
               </div>
         
               <div class="mb-3">
                 <label for="occasion-date" class="form-label">Ngày Diễn Ra</label>
-                <input type="date" class="form-control" id="occasion-date" name="occasionDate">
+                <input type="date" class="form-control" id="occasion-date" name="occasionDate" required>
               </div>
         
               <button type="submit" class="btn btn-primary">Thêm sự kiện</button>
