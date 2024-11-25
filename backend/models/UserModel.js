@@ -113,15 +113,47 @@ async function addAttendanceEvent(userId, eventId) {
   );
   return add;
 }
+
 async function getAllEventMaybeJoin(userId) {
-  const [events] = await connection.query(
-    "SELECT e.* FROM event e, event_group_register egr, groups g, group_member gm WHERE gm.user_id = ? AND gm.group_id = g.group_id AND g.group_id = egr.group_id AND egr.event_id = e.ID  AND e.id_creator = g.id_owner;",
+  const [u] = await connection.query(
+    "SELECT * FROM group_member WHERE user_id = ?",
     [userId]
   );
-  console.log(events);
+  const gid = u.map((g) => g.group_id);
+  // console.log("Lấy nhóm user thuộc ",u);
+
+  // console.log("Lấy group_id: ",gid);
+  const [g] = await connection.query(
+    "SELECT * FROM groups WHERE group_id IN (?)",
+    [gid]
+  );
+  // console.log("Lấy group tương ứng với group_id ",g);
+
+  const [eventGroups] = await connection.query(
+    "SELECT * FROM event_group_register WHERE group_id IN (?)",
+    [gid]
+  );
+  // console.log("Lấy sự kiện mà group đó có ",eventGroups);
+
+  const eventIds = eventGroups.map((eg) => eg.event_id);
+  // console.log(eventIds);
+
+  const [events] = await connection.query(
+    "SELECT * FROM event WHERE ID IN (?) OR id_creator = ?",
+    [eventIds, userId]
+  );
+
+  // console.log(events);
   return events;
 }
-
+async function changePass(data,userId) {
+  const { password, } = data;
+  const [result] = await connection.query(
+    "UPDATE user SET password = ? WHERE ID = ?",
+    [password, id]
+  );
+  return result;
+}
 export default {
   findById,
   findOneByEmail,

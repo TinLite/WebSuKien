@@ -26,7 +26,11 @@ export function History() {
                 <a href="/" className="list-group-item list-group-item-action">
                   <div className="d-flex justify-content-between">
                     <h5 className="mb-1">{history.name}</h5>
-                    <small>{history.occasion_date}</small>
+                    <small>
+                      {new Date(history.occasion_date).toLocaleDateString(
+                        "en-GB"
+                      )}
+                    </small>
                   </div>
                   <small className="mb-1">{history.des}</small>
                 </a>

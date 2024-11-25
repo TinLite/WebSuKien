@@ -46,7 +46,7 @@ export function initWebRoutes(app) {
     middlewareJwtAuth,
     UserApiController.unAttendanceEvent
   );
-  router.get("/api/user/event", middlewareJwtAuth, UserApiController.getAllEvent);
+  router.get("/api/event", middlewareJwtAuth, UserApiController.getAllEvent);
   // API/Event
   router.post("/api/addevent", middlewareJwtAuth, EventApiController.addEvent);
   router.post(
