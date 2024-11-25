@@ -65,7 +65,7 @@ export function initWebRoutes(app) {
     EventApiController.getAllEvents
   );
   router.get(
-    "/api/editevent/:id",
+    "/api/geteventbyid/:id",
     middlewareJwtAuth,
     EventApiController.getEventById
   );

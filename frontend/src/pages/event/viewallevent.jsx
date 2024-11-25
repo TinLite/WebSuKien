@@ -65,7 +65,10 @@ const ViewAllEvent = () => {
                       <Link className="btn btn-success" href="">
                         Xem
                       </Link>
-                      <Link className="btn btn-primary" href="">
+                      <Link
+                        className="btn btn-primary"
+                        to={`/event/edit/${event.ID}`}
+                      >
                         Sửa
                       </Link>
                       <form
