@@ -1,12 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import { LayoutMain } from "./layouts/main-layout";
-import { LoginPage } from "./pages/login/login";
-import { History } from "./pages/history/history";
-import { EventUpComing } from "./pages/history/eventupcoming";
-import ViewAllEvent from "./pages/event/viewallevent";
 import AddEvent from "./pages/event/addevent";
+import { EventDetail } from "./pages/event/detailevent";
 import EditEvent from "./pages/event/editevent";
 import { EventCanJoin } from "./pages/event/eventcanjoin";
+import ViewAllEvent from "./pages/event/viewallevent";
+import { EventUpComing } from "./pages/history/eventupcoming";
+import { History } from "./pages/history/history";
+import { LoginPage } from "./pages/login/login";
 export const route = createBrowserRouter([
   {
     path: "/login",
@@ -39,6 +40,10 @@ export const route = createBrowserRouter([
         path: "/event/add",
         element: <AddEvent />,
       },
+      {
+        path: "/event/detail/:idEvent",
+        element: <EventDetail/>,
+      }
     ],
   },
   {

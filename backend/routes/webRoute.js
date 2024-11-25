@@ -48,6 +48,7 @@ export function initWebRoutes(app) {
   router.get("/api/event", middlewareJwtAuth, UserApiController.getAllEvent);
   router.post("/api/event/:eventId/join", middlewareJwtAuth, EventApiController.joinEvent);
   router.post("/api/event/:eventId/leave", middlewareJwtAuth, EventApiController.leaveEvent);
+  router.post("")
   // API/Event
   router.post("/api/addevent", middlewareJwtAuth, EventApiController.addEvent);
   router.post(
@@ -75,6 +76,10 @@ export function initWebRoutes(app) {
     middlewareJwtAuth,
     EventApiController.getEventByIdCreater
   );
+
+  router.get("/api/event", EventApiController.getAllEvent);
+  router.post("/api/lock/:id?", EventApiController.lockEvent);
+  router.post("/api/unlock/:id?", EventApiController.unlockEvent);
   //Login
   router.get("/login", AuthController.login);
   router.post("/login", AuthController.login);
@@ -109,6 +114,10 @@ export function initWebRoutes(app) {
   router.get("/viewallevent", EventController.getViewAllEventPage);
   router.get("/editevent/:id", EventController.getEditEventPage);
   router.post("/editevent", EventController.editEvent);
+  router.post("/markAttendance", EventController.markAttendance);
+  router.post("/lockEvent", EventController.lockEvent);
+  router.get("/detailevent/:id", EventController.getEventDetails);
+  router.get("/event/:id/participants", EventController.getEventParticipants);
 
   app.use(router);
 }

@@ -8,7 +8,7 @@ export function getEventCanJoin() {
 }
 
 export function getListEventByIdCreater() {
-  return axios.get(`${API_URL}/geteventbyidcreater`, {
+  return axios.get(`${API_URL}/event`, {
     withCredentials: true,
   });
 }
@@ -24,6 +24,25 @@ export function editEvent(formData) {
 }
 export function getEventById(id) {
   return axios.get(`${API_URL}/geteventbyid/${id}`, { withCredentials: true });
+}
+
+export function unlockEvent(id) {
+  return axios.post(`${API_URL}/unlock/${id}`, {}, {
+    withCredentials: true,
+  });
+}
+export function lockEvent(id) {
+  return axios.post(`${API_URL}/lock/${id}`, {}, {
+    withCredentials: true,
+    /*headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      idevent: id,
+      is_locked: true,
+      }*/
+    }
+  )
 }
 
 /**
