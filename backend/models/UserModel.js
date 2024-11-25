@@ -118,8 +118,17 @@ async function addAttendanceEvent(userId, eventId) {
 
 async function getAllEventMaybeJoin(userId) {
   const [event] = await connection.query(
-    "SELECT DISTINCT e.* FROM event e, event_group_register egr, group_member gm WHERE e.ID = egr.event_id AND egr.group_id = gm.group_id AND gm.user_id = (?) OR e.id_creator = (?)",
-    [userId, userId]
+    `SELECT DISTINCT e.*
+    FROM event e, event_group_register egr, group_member gm
+    WHERE
+      e.ID = egr.event_id AND egr.group_id = gm.group_id
+      AND
+        (gm.user_id = ?
+        OR
+        e.id_creator = ?)
+      AND
+      e.ID NOT IN (SELECT ID FROM attendance a WHERE a.id_user = ?)`,
+    [userId, userId, userId]
   );
   // console.log(event);
   return event;

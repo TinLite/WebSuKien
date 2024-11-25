@@ -1,13 +1,11 @@
 import { Router } from "express";
-import { body, validationResult } from "express-validator";
-import EventController from "../controllers/EventController.js";
 import EventApiController from "../controllers/api/EventApiController.js";
 import LoginApiController from "../controllers/api/LoginApiController.js";
 import UserApiController from "../controllers/api/UserApiController.js";
 import AuthController from "../controllers/AuthController.js";
+import EventController from "../controllers/EventController.js";
 import GroupController from "../controllers/GroupController.js";
 import UserController from "../controllers/UserController.js";
-import { validatorLogin } from "../middlewares/Validator.js";
 import {
   middlewareJwtAuth,
   middlewareJwtFetchUser,
@@ -48,6 +46,8 @@ export function initWebRoutes(app) {
     UserApiController.unAttendanceEvent
   );
   router.get("/api/event", middlewareJwtAuth, UserApiController.getAllEvent);
+  router.post("/api/event/:eventId/join", middlewareJwtAuth, EventApiController.joinEvent);
+  router.post("/api/event/:eventId/leave", middlewareJwtAuth, EventApiController.leaveEvent);
   // API/Event
   router.post("/api/addevent", middlewareJwtAuth, EventApiController.addEvent);
   router.post(

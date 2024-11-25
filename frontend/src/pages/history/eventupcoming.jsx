@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { leaveEvent } from "../../repositories/EventRepository";
 import { getEventUpcoming } from "../../repositories/UserRepository";
 export function EventUpComing() {
   const [data, setData] = useState([]);
-  useEffect(() => {
+  const populateData = () =>
     getEventUpcoming()
       .then((res) => {
         setData(res.data);
@@ -10,6 +11,8 @@ export function EventUpComing() {
       .catch((err) => {
         console.log(err);
       });
+  useEffect(() => {
+    populateData();
   }, []);
   return (
     <div>
@@ -37,9 +40,9 @@ export function EventUpComing() {
                     </div>
                   </a>
                   <div className="px-2 py-2">
-                    <a href="/" className="btn btn-danger">
+                    <button onClick={() => leaveEvent(event.ID).then(() => populateData()).catch((err) => console.log)} className="btn btn-danger">
                       Hủy đăng ký
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>

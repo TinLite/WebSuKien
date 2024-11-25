@@ -19,6 +19,32 @@ const editEvent = async (req, res) => {
   return res.json({ message: "Sửa sự kiện thành công" });
 };
 
+const joinEvent = async (req, res) => {
+  eventModel.joinEvent(req.apiUser.ID, req.params.eventId).then(() => {
+    res.json({ message: "Tham gia sự kiện thành công", data: data });
+  }).catch((err) => {
+    // Bảng này set khoá chính để kiểm tra trùng, mục tiêu nhằm tránh một người dùng tham gia một event hai lần.
+    switch (err.code) {
+      case "ER_DUP_ENTRY":
+        return res.json({ message: "Bạn đã tham gia sự kiện này" });
+      case "ER_NO_REFERENCED_ROW_2":
+        return res.json({ message: "Sự kiện không tồn tại" });
+      default:
+        console.error(err);
+        return res.json({ message: "Tham gia sự kiện thất bại" });
+    }
+  });
+}
+
+const leaveEvent = async (req, res) => {
+  eventModel.leaveEvent(req.apiUser.ID, req.params.eventId).then(() => {
+    res.json({ message: "Rút khỏi sự kiện thành công" });
+  }).catch((err) => {
+    console.error(err);
+    return res.json({ message: "Rút khỏi sự kiện thất bại" });
+  });
+}
+
 const getAllEvents = async (req, res) => {
   const { find } = req.query;
   let events;
@@ -50,4 +76,6 @@ export default {
   getAllEvents,
   getEventById,
   getEventByIdCreater,
+  joinEvent,
+  leaveEvent,
 };

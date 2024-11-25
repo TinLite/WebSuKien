@@ -1,0 +1,11 @@
+meta {
+  name: Join Event
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8080/api/event/{{eventId}}/join
+  body: none
+  auth: none
+}

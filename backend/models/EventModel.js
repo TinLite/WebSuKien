@@ -60,6 +60,19 @@ const deleteEventFromGroup = (id_event) => {
     [id_event]
   );
 };
+const joinEvent = async (id_user, id_event) => {
+  return connection.execute(
+    "INSERT INTO `attendance` (id_user, id_event) VALUES (?, ?)",
+    [id_user, id_event]
+  )
+}
+
+const leaveEvent = async (id_user, id_event) => {
+  return connection.execute(
+    "DELETE FROM `attendance` WHERE id_user = ? AND id_event = ?",
+    [id_user, id_event]
+  )
+}
 export default {
   addEvent,
   getAllEvent,
@@ -70,4 +83,6 @@ export default {
   getEventByIdCreater,
   addEventToGroup,
   deleteEventFromGroup,
+  joinEvent,
+  leaveEvent,
 };

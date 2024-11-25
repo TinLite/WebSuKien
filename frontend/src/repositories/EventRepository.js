@@ -25,3 +25,30 @@ export function editEvent(formData) {
 export function getEventById(id) {
   return axios.get(`${API_URL}/geteventbyid/${id}`, { withCredentials: true });
 }
+
+/**
+ * Tham gia sự kiện
+ * @author Vinh
+ * @param {String} eventId ID sự kiện muốn tham gia
+ * @returns 
+ */
+export function joinEvent(eventId) {
+  return axios.post(
+    `${API_URL}/event/${eventId}/join`,
+    undefined, // Variable thứ hai luôn là body của post
+    { withCredentials: true }
+  );
+}
+
+/**
+ * Hủy tham gia sự kiện
+ * @param {String} eventId ID sự kiện muốn hủy tham gia
+ * @returns 
+ */
+export function leaveEvent(eventId) {
+  return axios.post(
+    `${API_URL}/event/${eventId}/leave`,
+    undefined,
+    { withCredentials: true }
+  );
+}
