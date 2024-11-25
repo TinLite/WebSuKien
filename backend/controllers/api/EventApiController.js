@@ -21,7 +21,7 @@ const editEvent = async (req, res) => {
 
 const joinEvent = async (req, res) => {
   eventModel.joinEvent(req.apiUser.ID, req.params.eventId).then(() => {
-    res.json({ message: "Tham gia sự kiện thành công", data: data });
+    res.json({ message: "Tham gia sự kiện thành công" });
   }).catch((err) => {
     // Bảng này set khoá chính để kiểm tra trùng, mục tiêu nhằm tránh một người dùng tham gia một event hai lần.
     switch (err.code) {
