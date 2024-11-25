@@ -67,6 +67,7 @@ const deleteEventFromGroup = (id_event) => {
     "DELETE FROM `event_group_register` WHERE event_id = ?",
     [id_event]
   );
+}
 const lockEvent = (id) => {
   return connection.query("UPDATE `event` SET is_locked = 1 WHERE event.ID = ?", [id]);
 };

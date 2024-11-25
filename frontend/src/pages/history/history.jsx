@@ -5,11 +5,14 @@ import { getHistory } from "../../repositories/UserRepository";
 export function History() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    getHistory().then((res) => {
-      setData(res.data);
-    });
+    getHistory()
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
-
   return (
     <div>
       <div className="bg-primary text-white text-center py-2">

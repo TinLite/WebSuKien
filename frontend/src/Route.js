@@ -41,6 +41,10 @@ export const route = createBrowserRouter([
         element: <AddEvent />,
       },
       {
+        path: "/user/changepassword",
+        element: <ChangePass />,
+      },
+      {
         path: "/event/detail/:idEvent",
         element: <EventDetail/>,
       }
