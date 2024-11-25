@@ -67,7 +67,9 @@ function findById(id) {
     [id]
   );
 }
-
+function findPass(id) {
+  return connection.query("SELECT password FROM user WHERE ID = ?", [id]);
+}
 function findOneByEmail(email) {
   return connection.query("SELECT * FROM user WHERE email = ?", [email]);
 }
@@ -115,42 +117,17 @@ async function addAttendanceEvent(userId, eventId) {
 }
 
 async function getAllEventMaybeJoin(userId) {
-  const [u] = await connection.query(
-    "SELECT * FROM group_member WHERE user_id = ?",
-    [userId]
+  const [event] = await connection.query(
+    "SELECT DISTINCT e.* FROM event e, event_group_register egr, group_member gm WHERE e.ID = egr.event_id AND egr.group_id = gm.group_id AND gm.user_id = (?) OR e.id_creator = (?)",
+    [userId, userId]
   );
-  const gid = u.map((g) => g.group_id);
-  // console.log("Lấy nhóm user thuộc ",u);
-
-  // console.log("Lấy group_id: ",gid);
-  const [g] = await connection.query(
-    "SELECT * FROM groups WHERE group_id IN (?)",
-    [gid]
-  );
-  // console.log("Lấy group tương ứng với group_id ",g);
-
-  const [eventGroups] = await connection.query(
-    "SELECT * FROM event_group_register WHERE group_id IN (?)",
-    [gid]
-  );
-  // console.log("Lấy sự kiện mà group đó có ",eventGroups);
-
-  const eventIds = eventGroups.map((eg) => eg.event_id);
-  // console.log(eventIds);
-
-  const [events] = await connection.query(
-    "SELECT * FROM event WHERE ID IN (?) OR id_creator = ?",
-    [eventIds, userId]
-  );
-
-  // console.log(events);
-  return events;
+  // console.log(event);
+  return event;
 }
-async function changePass(data,userId) {
-  const { password, } = data;
+async function changePass(hashedPassword, userId) {
   const [result] = await connection.query(
     "UPDATE user SET password = ? WHERE ID = ?",
-    [password, id]
+    [hashedPassword, userId]
   );
   return result;
 }
@@ -171,4 +148,6 @@ export default {
   addAttendanceEvent,
   getattendanceEvent,
   getAllEventMaybeJoin,
+  changePass,
+  findPass,
 };
