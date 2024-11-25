@@ -25,6 +25,7 @@ export function initWebRoutes(app) {
     middlewareJwtAuth,
     UserApiController.getProfile
   );
+  router.post("/api/user/changepassword", middlewareJwtAuth, UserApiController.changePassword);
   //API/User
   router.get(
     "/api/user/history",

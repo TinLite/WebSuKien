@@ -1,5 +1,5 @@
 import UserModel from "../../models/UserModel";
-
+import bcrypt from "bcrypt";
 function getProfile(req, res) {
   let user = req.apiUser;
 
@@ -50,6 +50,19 @@ async function getAllEvent(req, res) {
   const history = await UserModel.getAllEventMaybeJoin(user.ID);
   return res.json(history);
 }
+async function changePassword(req, res) {
+  const user = req.apiUser;
+  const { oldPassword, newPassword } = req.body;
+  const [[u]] = await UserModel.findPass(user.ID);
+  // console.log(u);
+  const isMatch = bcrypt.compare(oldPassword, u.password);
+  if (!isMatch) {
+    return res.json({ message: "Old password is incorrect" });
+  }
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  const result = await UserModel.changePass(hashedPassword, user.ID);
+  return res.json(result);
+}
 export default {
   getProfile,
   getAllHistory,
@@ -57,4 +70,5 @@ export default {
   unAttendanceEvent,
   addAttendanceEvent,
   getAllEvent,
+  changePassword,
 };
