@@ -8,6 +8,7 @@ import AddEvent from "./pages/event/addevent";
 import EditEvent from "./pages/event/editevent";
 import { EventCanJoin } from "./pages/event/eventcanjoin";
 import { ChangePass } from "./pages/user/changpass";
+import { EventDetail } from "./pages/event/detailevent";
 export const route = createBrowserRouter([
   {
     path: "/login",
@@ -33,7 +34,7 @@ export const route = createBrowserRouter([
         element: <ViewAllEvent />,
       },
       {
-        path: "/event/edit",
+        path: "/event/edit/:idEvent",
         element: <EditEvent />,
       },
       {
@@ -43,6 +44,10 @@ export const route = createBrowserRouter([
       {
         path: "/user/changepassword",
         element: <ChangePass />,
+      },
+      {
+        path: "/event/detail/:idEvent",
+        element: <EventDetail/>,
       }
     ],
   },

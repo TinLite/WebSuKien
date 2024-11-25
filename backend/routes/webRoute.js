@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { body, validationResult } from "express-validator";
 import EventController from "../controllers/EventController.js";
 import EventApiController from "../controllers/api/EventApiController.js";
 import LoginApiController from "../controllers/api/LoginApiController.js";
@@ -7,12 +6,7 @@ import UserApiController from "../controllers/api/UserApiController.js";
 import AuthController from "../controllers/AuthController.js";
 import GroupController from "../controllers/GroupController.js";
 import UserController from "../controllers/UserController.js";
-import { validatorLogin } from "../middlewares/Validator.js";
-import {
-  middlewareJwtAuth,
-  middlewareJwtFetchUser,
-  middlewareSessionAdmin,
-} from "../middlewares/MiddlewareAuth.js";
+import { middlewareJwtAuth, middlewareJwtFetchUser, middlewareSessionAdmin } from "../middlewares/MiddlewareAuth.js";
 const router = Router();
 
 export function initWebRoutes(app) {
@@ -79,6 +73,12 @@ export function initWebRoutes(app) {
     middlewareJwtAuth,
     EventApiController.getEventByIdCreater
   );
+  router.get("/api/users/profile/:id?", UserApiController.getProfile);
+  router.get("/api/geteventbyid/:id?", EventApiController.getEventDetails);
+  router.get("/api/event", EventApiController.getAllEvent);
+  router.post("/api/lock/:id?", EventApiController.lockEvent);
+  router.post("/api/unlock/:id?", EventApiController.unlockEvent);
+
   //Login
   router.get("/login", AuthController.login);
   router.post("/login", AuthController.login);
@@ -112,6 +112,10 @@ export function initWebRoutes(app) {
   router.get("/viewallevent", EventController.getViewAllEventPage);
   router.get("/editevent/:id", EventController.getEditEventPage);
   router.post("/editevent", EventController.editEvent);
+  router.post("/markAttendance", EventController.markAttendance);
+  router.post("/lockEvent", EventController.lockEvent);
+  router.get("/detailevent/:id", EventController.getEventDetails);
+  router.get("/event/:id/participants", EventController.getEventParticipants);
 
   app.use(router);
 }

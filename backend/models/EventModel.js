@@ -19,11 +19,8 @@ const deleteEvent = (data) => {
   ]);
 };
 
-const getEventByID = (id) => {
-  return connection.query(
-    "SELECT * FROM `event` JOIN `event_group_register` ON event_group_register.event_id = event.ID  WHERE event.ID = ?",
-    [id]
-  );
+const getEventById = (id) => {
+  return connection.query("SELECT * FROM `event` WHERE event.ID = ?", [id]);
 };
 const editEvent = (data) => {
   return connection.query(
@@ -40,34 +37,34 @@ const getEventByName = (name) => {
     [name]
   );
 };
-
-const getEventByIdCreater = (id_creator) => {
+const markAttendance = (id_event, id_user) => {
   return connection.query(
-    "SELECT user.username, event.* FROM `event` JOIN `user` ON event.id_creator = user.ID WHERE event.id_creator = ?",
-    [id_creator]
+    "INSERT INTO attendance (id_user, id_event, status) VALUES (?,?,1)",
+    [id_user, id_event]
   );
 };
-
-const addEventToGroup = (id_group, id_event) => {
-  return connection.query("INSERT INTO `event_group_register` VALUES (?, ?)", [
-    id_group,
-    id_event,
-  ]);
-};
-const deleteEventFromGroup = (id_event) => {
+const searchParticipants = (id_event, query) => {
+  query = `%${query}%`;
   return connection.query(
-    "DELETE FROM `event_group_register` WHERE event_id = ?",
-    [id_event]
+    "SELECT u.username FROM attendance a JOIN user u ON a.id_user = u.ID WHERE a.id_event = ? AND (u.username LIKE ? OR u.phone LIKE ?)",
+    [id_event, query, query]
   );
+};
+const lockEvent = (id) => {
+  return connection.query("UPDATE `event` SET is_locked = 1 WHERE event.ID = ?", [id]);
+};
+const unlockEvent = (id) => {
+  return connection.query("UPDATE `event` SET is_locked = 0 WHERE event.ID = ?", [id]);
 };
 export default {
+  unlockEvent,
+  lockEvent,
+  getEventById,
+  searchParticipants,
+  markAttendance,
   addEvent,
-  getAllEvent,
+  getAllEvent, 
   deleteEvent,
-  getEventByID,
-  editEvent,
+  editEvent, 
   getEventByName,
-  getEventByIdCreater,
-  addEventToGroup,
-  deleteEventFromGroup,
 };

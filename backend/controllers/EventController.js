@@ -34,8 +34,7 @@ const getViewAllEventPage = async (req, res) => {
 };
 const getEditEventPage = async (req, res) => {
   const { id } = req.params;
-  let [event] = await eventModel.getEventByID(id);
-  event = event[0];
+  let event = await eventModel.getEventById(id);
   event.reg_deadline = new Date(event.reg_deadline)
     .toISOString()
     .substring(0, 10);
@@ -54,11 +53,41 @@ const editEvent = async (req, res) => {
   await eventModel.addEventToGroup(data.idevent, data.group_id);
   return res.redirect("/viewAllEvent");
 };
+const markAttendance = async (req, res) => {
+  const { id_event, id_user } = req.body;
+  await eventModel.markAttendance(id_event, id_user);
+  return res.redirect("/viewAllEvent");
+};
+const searchParticipants = async (req, res) => {
+  const { id_event, query } = req.query;
+  const participants = await eventModel.searchParticipants(id_event, query);
+  res.render("eventParticipants", { participants });
+};
+const getEventDetails = async (req, res) => {
+  const { id } = req.params;
+  const event = await eventModel.getEventById(id);
+  res.render("detailEvent",  {event});
+};
+const lockEvent = async (req, res) => {
+  const { idevent } = req.body;
+  await eventModel.lockEvent(idevent);
+  return res.redirect("/viewAllEvent");
+};
+const getEventParticipants = async (req, res) => {
+  const { id } = req.params;
+  const participants = await eventModel.getParticipantsByEventId(id);
+  res.render("partEvent", { participants });
+};
 export default {
+  getEventParticipants,
+  lockEvent,
+  getEventDetails,
   getAddEventPage,
   addEvent,
   getViewAllEventPage,
   deleteEvent,
   getEditEventPage,
   editEvent,
+  markAttendance,
+  searchParticipants 
 };

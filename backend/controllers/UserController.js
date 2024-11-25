@@ -1,16 +1,12 @@
 import e from "express";
 import userModel from "../models/UserModel";
 import bcrypt from "bcrypt";
-import {body, validationResult} from "express-validator";
 const getHomePage = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = 5;
   const offset = (page - 1) * limit;
   const { total, users } = await userModel.findAllUser(limit, offset);
-  // console.log(total);
-  // console.log(users);
   const totalPages = Math.ceil(total / limit);
-  // console.log(users);
   res.render("home", {
     body: "user/list",
     row: users,
