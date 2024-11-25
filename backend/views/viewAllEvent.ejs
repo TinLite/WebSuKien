@@ -79,13 +79,13 @@
                     <button class="btn btn-danger">Xóa</button>
                   </form>
                   <form method="post" action="/markAttendance" class="d-inline-block">
-                    <input type="text" name="id_event" value="<%= event.id_event %>" hidden />
-                    <input type="text" name="id_user" value="<%= event.id_user %>" hidden />
+                    <input type="text" name="id_event" value="<%= event.ID %>" hidden />
+                    <input type="text" name="id_user" value="<%= session.user.ID %>" hidden />
                     <% if (event.attendanceStatus === 1) { %>
                       <button class="btn btn-danger">Hủy điểm danh</button>
                     <% } else { %>
                       <button class="btn btn-warning">Điểm danh</button>
-                    <% } %>
+                    <% } %> 
                   </form>
                   <form method="post" action="/lockEvent" class="d-inline-block">
                     <input type="text" name="idevent" value="<%= event.ID %>" hidden />

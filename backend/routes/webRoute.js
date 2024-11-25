@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { body, validationResult } from "express-validator";
 import EventController from "../controllers/EventController.js";
 import EventApiController from "../controllers/api/EventApiController.js";
 import LoginApiController from "../controllers/api/LoginApiController.js";
@@ -16,6 +15,10 @@ export function initWebRoutes(app) {
   router.post("/api/login", LoginApiController.postLogin);
   router.post("/api/logout", middlewareJwtAuth, LoginApiController.postLogout);
   router.get("/api/users/profile/:id?", UserApiController.getProfile);
+  router.get("/api/geteventbyid/:id?", EventApiController.getEventDetails);
+  router.get("/api/event", EventApiController.getAllEvent);
+  router.post("/api/lock/:id?", EventApiController.lockEvent);
+  router.post("/api/unlock/:id?", EventApiController.unlockEvent);
 
   //Login
   router.get("/login", AuthController.login);
@@ -45,12 +48,16 @@ export function initWebRoutes(app) {
   router.post("/group/update/:group_id", GroupController.updateGroup);
 
   // Event
-  router.get("/addevent", AdminController.getAddEventPage);
-  router.post("/addevent", AdminController.addEvent);
-  router.post("/deleteevent", AdminController.deleteEvent);
-  router.get("/viewallevent", AdminController.getViewAllEventPage);
-  router.get("/editevent/:id", AdminController.getEditEventPage);
-  router.post("/editevent", AdminController.editEvent);
+  router.get("/addevent", EventController.getAddEventPage);
+  router.post("/addevent", EventController.addEvent);
+  router.post("/deleteevent", EventController.deleteEvent);
+  router.get("/viewallevent", EventController.getViewAllEventPage);
+  router.get("/editevent/:id", EventController.getEditEventPage);
+  router.post("/editevent", EventController.editEvent);
+  router.post("/markAttendance", EventController.markAttendance);
+  router.post("/lockEvent", EventController.lockEvent);
+  router.get("/detailevent/:id", EventController.getEventDetails);
+  router.get("/event/:id/participants", EventController.getEventParticipants);
 
   app.use(router);
 }

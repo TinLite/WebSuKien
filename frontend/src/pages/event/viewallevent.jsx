@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getListEventByIdCreater } from "../../repositories/EventRepository";
+import { getListEventByIdCreater,lockEvent,unlockEvent } from "../../repositories/EventRepository";
 const ViewAllEvent = () => {
   const [listEvent, setListEvent] = useState([]);
   useEffect(() => {
     getListEventByIdCreater().then((res) => {
       setListEvent(res.data);
-      console.log(res.data);
+      console.log('a ', res.data);
     });
   }, []);
   return (
@@ -31,7 +31,7 @@ const ViewAllEvent = () => {
                   <th scope="col">Người tạo sự kiện</th>
                   <th scope="col">Tên sự kiện</th>
                   <th scope="col">Khóa</th>
-                  <th scope="col">Ẩn</th>
+                  <th scope="col">Khóa</th>
                   <th scope="col">Thời hạn đăng ký</th>
                   <th scope="col">Thời gian tạo sự kiện</th>
                   <th scope="col">Ngày diễn ra sự kiện</th>
@@ -45,10 +45,10 @@ const ViewAllEvent = () => {
                     <td>{event.username}</td>
                     <td>{event.name}</td>
                     <td>
-                      <input type="checkbox" checked={event.is_locked} />
+                      <input type="checkbox" checked={event.is_locked} hand/>
                     </td>
                     <td>
-                      <input type="checkbox" checked={event.hidden} />
+                      <input type="checkbox" checked={event.is_hidden} />
                     </td>
                     <td>
                       {new Date(event.reg_deadline).toLocaleDateString("en-GB")}
@@ -62,7 +62,7 @@ const ViewAllEvent = () => {
                       )}
                     </td>
                     <td>
-                      <Link className="btn btn-success" href="">
+                      <Link className="btn btn-success" to={`/event/detail/${event.ID}`}>
                         Xem
                       </Link>
                       <Link
@@ -81,6 +81,7 @@ const ViewAllEvent = () => {
                           value="<%= event.ID %>"
                           name="idevent"
                           hidden
+                          readOnly
                         />
                         <button className="btn btn-danger">Xóa</button>
                       </form>

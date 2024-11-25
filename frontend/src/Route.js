@@ -6,6 +6,7 @@ import { EventUpComing } from "./pages/history/eventupcoming";
 import ViewAllEvent from "./pages/event/viewallevent";
 import AddEvent from "./pages/event/addevent";
 import EditEvent from "./pages/event/editevent";
+import { EventDetail } from "./pages/event/detailevent";
 export const route = createBrowserRouter([
   {
     path: "/login",
@@ -38,6 +39,10 @@ export const route = createBrowserRouter([
         path: "/event/add",
         element: <AddEvent />,
       },
+      {
+        path: "/event/detail/:idEvent",
+        element: <EventDetail/>,
+      }
     ],
   },
   {

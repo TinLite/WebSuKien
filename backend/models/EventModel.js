@@ -19,7 +19,7 @@ const deleteEvent = (data) => {
   ]);
 };
 
-const getEventByID = (id) => {
+const getEventById = (id) => {
   return connection.query("SELECT * FROM `event` WHERE event.ID = ?", [id]);
 };
 const editEvent = (data) => {
@@ -37,13 +37,34 @@ const getEventByName = (name) => {
     [name]
   );
 };
+const markAttendance = (id_event, id_user) => {
+  return connection.query(
+    "INSERT INTO attendance (id_user, id_event, status) VALUES (?,?,1)",
+    [id_user, id_event]
+  );
+};
+const searchParticipants = (id_event, query) => {
+  query = `%${query}%`;
+  return connection.query(
+    "SELECT u.username FROM attendance a JOIN user u ON a.id_user = u.ID WHERE a.id_event = ? AND (u.username LIKE ? OR u.phone LIKE ?)",
+    [id_event, query, query]
+  );
+};
+const lockEvent = (id) => {
+  return connection.query("UPDATE `event` SET is_locked = 1 WHERE event.ID = ?", [id]);
+};
+const unlockEvent = (id) => {
+  return connection.query("UPDATE `event` SET is_locked = 0 WHERE event.ID = ?", [id]);
+};
 export default {
-  getParticipantsByEventId, 
+  unlockEvent,
   lockEvent,
+  getEventById,
+  searchParticipants,
+  markAttendance,
   addEvent,
   getAllEvent, 
   deleteEvent,
-  getEventById,
   editEvent, 
   getEventByName,
 };
