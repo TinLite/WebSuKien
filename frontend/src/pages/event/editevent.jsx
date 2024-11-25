@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { editEvent, getEventById } from "../../repositories/EventRepository";
+import {
+  editEvent,
+  getEventById,
+  getGroupByIdManager,
+} from "../../repositories/EventRepository";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 const EditEvent = () => {
@@ -11,6 +15,7 @@ const EditEvent = () => {
     occasionDate: "",
     idevent: "",
   });
+  const [groups, setGroups] = useState([]);
   const { idEvent } = useParams();
   const navigate = useNavigate();
   const handleChangeInput = (event) => {
@@ -25,7 +30,6 @@ const EditEvent = () => {
   };
   useEffect(() => {
     getEventById(idEvent).then((res) => {
-      console.log(res.data);
       setFormData({
         name: res.data.name,
         des: res.data.des,
@@ -42,6 +46,11 @@ const EditEvent = () => {
       });
     });
   }, []);
+  useEffect(() => {
+    getGroupByIdManager().then((res) => {
+      setGroups(res.data.groups);
+    });
+  }, []);
   return (
     <div>
       <div className="container-fluid">
@@ -50,7 +59,7 @@ const EditEvent = () => {
             <h2 className="text-center">SỬA SỰ KIỆN</h2>
             <form method="post" action="/editevent" onSubmit={handleEditEvent}>
               <div className="mb-3">
-                <label for="name" className="form-label">
+                <label htmlFor="name" className="form-label">
                   Tên
                 </label>
                 <input
@@ -66,11 +75,11 @@ const EditEvent = () => {
               </div>
 
               <div className="mb-3">
-                <label for="description" class="form-label">
+                <label htmlFor="description" className="form-label">
                   Mô Tả
                 </label>
                 <textarea
-                  class="form-control"
+                  className="form-control"
                   id="description"
                   rows="3"
                   placeholder="Nhập mô tả sự kiện"
@@ -81,28 +90,33 @@ const EditEvent = () => {
                 ></textarea>
               </div>
 
-              <div class="mb-3">
-                <label for="group-id" class="form-label">
-                  Mã nhóm (Để trống nếu dành cho tất cả)
+              <div className="mb-3">
+                <label htmlFor="group-id" className="form-label">
+                  Mã nhóm
                 </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="group-id"
-                  placeholder="Nhập tên sự kiện"
+                <select
                   name="group_id"
+                  id="group-id"
+                  className="form-control"
                   value={formData.group_id}
                   onChange={handleChangeInput}
-                />
+                  required
+                >
+                  {groups.map((group, index) => (
+                    <option key={index} value={group.group_id}>
+                      {group.group_name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
-              <div class="mb-3">
-                <label for="deadline" class="form-label">
+              <div className="mb-3">
+                <label htmlFor="deadline" className="form-label">
                   Thời Hạn Đăng Ký
                 </label>
                 <input
                   type="date"
-                  class="form-control"
+                  className="form-control"
                   id="deadline"
                   name="regDeadline"
                   value={formData.regDeadline}
@@ -111,13 +125,13 @@ const EditEvent = () => {
                 />
               </div>
 
-              <div class="mb-3">
-                <label for="occasion-date" class="form-label">
+              <div className="mb-3">
+                <label htmlFor="occasion-date" className="form-label">
                   Ngày Diễn Ra
                 </label>
                 <input
                   type="date"
-                  class="form-control"
+                  className="form-control"
                   id="occasion-date"
                   name="occasionDate"
                   value={formData.occasionDate}
@@ -126,7 +140,7 @@ const EditEvent = () => {
                 />
               </div>
 
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" className="btn btn-primary">
                 Sửa sự kiện
               </button>
             </form>

@@ -34,9 +34,14 @@
                 <input type="text" class="form-control" id="name" placeholder="Nhập tên sự kiện" name="name" required>
               </div>
               
-              <div class="mb-3">
-                <label for="group-id" class="form-label">Mã nhóm (Để trống nếu dành cho tất cả)</label>
-                <input type="text" class="form-control" id="group-id" placeholder="Nhập tên sự kiện" name="group_id">
+              <div class="mb-3">          
+                <label for="group-id" class="form-label">Mã nhóm</label>
+                <select name="group_id" id="group-id" class="form-control">
+                  <option value="">Dành cho tất cả</option>
+                  <% groups.forEach(function(group, index){ %>
+                    <option value="<%=group.group_id%>"><%=group.group_name%></option>
+                    <% }) %>
+                </select>
               </div>
     
               <div class="mb-3">

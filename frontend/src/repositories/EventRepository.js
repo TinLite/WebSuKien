@@ -18,3 +18,14 @@ export function editEvent(formData) {
 export function getEventById(id) {
   return axios.get(`${API_URL}/geteventbyid/${id}`, { withCredentials: true });
 }
+export function getGroupByIdManager() {
+  return axios.get(`${API_URL}/getgroupbyidmanager`, { withCredentials: true });
+}
+
+export function deleteEvent(id_event) {
+  return axios.post(
+    `${API_URL}/deleteevent`,
+    { idevent: id_event },
+    { withCredentials: true }
+  );
+}

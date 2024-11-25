@@ -1,7 +1,7 @@
 import connection from "../services/SqlConnection";
 
 const addGroup = async (data) => {
-  const {  id_owner, group_name } = data;
+  const { id_owner, group_name } = data;
   const [group] = await connection.query(
     "INSERT INTO groups (id_owner, group_name,status) VALUES (?,?,?)",
     [id_owner, group_name, 1]
@@ -12,11 +12,11 @@ const addGroup = async (data) => {
     [group_id, id_owner]
   );
   const role = "manager";
-  await connection.query(
-    "UPDATE user SET role = ?  WHERE ID = ?",
-    [role, id_owner]
-  );
-  return{ group_id, id_owner, group_name, status: 1 };
+  await connection.query("UPDATE user SET role = ?  WHERE ID = ?", [
+    role,
+    id_owner,
+  ]);
+  return { group_id, id_owner, group_name, status: 1 };
 };
 
 const getAllGroups = async () => {
@@ -56,13 +56,21 @@ const updateGroup = async (group) => {
     [group_name, group_id]
   );
   return result;
-}
+};
 const getGroupById = async (group_id) => {
-  const [group] = await connection.query("SELECT * FROM groups WHERE group_id = ?", [
-    group_id,
-  ]);
+  const [group] = await connection.query(
+    "SELECT * FROM groups WHERE group_id = ?",
+    [group_id]
+  );
   return group;
-}
+};
+const getGroupByIdManager = async (id_owner) => {
+  const [groups] = await connection.query(
+    "SELECT * FROM groups WHERE id_owner = ?",
+    [id_owner]
+  );
+  return groups;
+};
 export default {
   addGroup,
   getAllGroups,
@@ -70,5 +78,6 @@ export default {
   unActiveGroup,
   searchGroup,
   updateGroup,
-  getGroupById
+  getGroupById,
+  getGroupByIdManager,
 };

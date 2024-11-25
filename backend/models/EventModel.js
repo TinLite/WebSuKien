@@ -21,7 +21,7 @@ const deleteEvent = (data) => {
 
 const getEventByID = (id) => {
   return connection.query(
-    "SELECT * FROM `event` JOIN `event_group_register` ON event_group_register.event_id = event.ID  WHERE event.ID = ?",
+    "SELECT * FROM `event` LEFT JOIN `event_group_register` ON event_group_register.event_id = event.ID  WHERE event.ID = ?",
     [id]
   );
 };

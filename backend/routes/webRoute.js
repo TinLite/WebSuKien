@@ -63,6 +63,11 @@ export function initWebRoutes(app) {
     middlewareJwtAuth,
     EventApiController.getEventByIdCreater
   );
+  router.get(
+    "/api/getgroupbyidmanager",
+    middlewareJwtAuth,
+    EventApiController.getGroupByIdManager
+  );
   //Login
   router.get("/login", AuthController.login);
   router.post("/login", AuthController.login);

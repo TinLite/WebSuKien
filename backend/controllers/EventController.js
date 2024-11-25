@@ -1,8 +1,11 @@
 import e from "express";
 import eventModel from "../models/EventModel.js";
+import groupModel from "../models/GroupModel.js";
+import moment from "moment";
 
-const getAddEventPage = (req, res) => {
-  res.render("addEvent");
+const getAddEventPage = async (req, res) => {
+  const groups = await groupModel.getAllGroups();
+  res.render("addEvent", { groups: groups });
 };
 const addEvent = async (req, res) => {
   const data = req.body;
@@ -19,6 +22,7 @@ const addEvent = async (req, res) => {
 };
 const deleteEvent = async (req, res) => {
   const data = req.body;
+  await eventModel.deleteEventFromGroup(data.idevent);
   await eventModel.deleteEvent(data);
   return res.redirect("/viewAllEvent");
 };
@@ -34,15 +38,19 @@ const getViewAllEventPage = async (req, res) => {
 };
 const getEditEventPage = async (req, res) => {
   const { id } = req.params;
+  console.log(id);
   let [event] = await eventModel.getEventByID(id);
   event = event[0];
-  event.reg_deadline = new Date(event.reg_deadline)
-    .toISOString()
-    .substring(0, 10);
-  event.occasion_date = new Date(event.occasion_date)
-    .toISOString()
-    .substring(0, 10);
-  res.render("editEvent", { data: { event: event } });
+  event.reg_deadline = moment
+    .utc(event.reg_deadline)
+    .utcOffset(7)
+    .format("YYYY-MM-DD");
+  event.occasion_date = moment
+    .utc(event.occasion_date)
+    .utcOffset(7)
+    .format("YYYY-MM-DD");
+  const groups = await groupModel.getAllGroups();
+  res.render("editEvent", { data: { event: event, groups: groups } });
 };
 const editEvent = async (req, res) => {
   const data = req.body;
@@ -51,7 +59,7 @@ const editEvent = async (req, res) => {
   if (!data.group_id) {
     return res.redirect("/viewAllEvent");
   }
-  await eventModel.addEventToGroup(data.idevent, data.group_id);
+  await eventModel.addEventToGroup(data.group_id, data.idevent);
   return res.redirect("/viewAllEvent");
 };
 export default {
