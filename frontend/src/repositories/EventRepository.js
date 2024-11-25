@@ -1,5 +1,12 @@
 import axios from "axios";
 import { API_URL } from "../configs/Constants";
+
+export function getEventCanJoin() {
+  return axios.get(`${API_URL}/event`, {
+    withCredentials: true,
+  });
+}
+
 export function getListEventByIdCreater() {
   return axios.get(`${API_URL}/geteventbyidcreater`, {
     withCredentials: true,

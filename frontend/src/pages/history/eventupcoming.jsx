@@ -3,11 +3,13 @@ import { getEventUpcoming } from "../../repositories/UserRepository";
 export function EventUpComing() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    getEventUpcoming().then((res) => {
-      setData(res.data);
-    }).catch((err) => {
-      console.log(err);
-    });
+    getEventUpcoming()
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
   return (
     <div>
@@ -26,7 +28,11 @@ export function EventUpComing() {
                   <a href="/" className="text-decoration-none text-black">
                     <div className="card-body">
                       <h5 className="card-title">{event.name}</h5>
-                      <p className="card-text">{event.occasion_date}</p>
+                      <p className="card-text">
+                        {new Date(event.occasion_date).toLocaleDateString(
+                          "en-GB"
+                        )}
+                      </p>
                       <p className="card-text">{event.des}</p>
                     </div>
                   </a>

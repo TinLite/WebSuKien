@@ -6,6 +6,7 @@ import { EventUpComing } from "./pages/history/eventupcoming";
 import ViewAllEvent from "./pages/event/viewallevent";
 import AddEvent from "./pages/event/addevent";
 import EditEvent from "./pages/event/editevent";
+import { EventCanJoin } from "./pages/event/eventcanjoin";
 export const route = createBrowserRouter([
   {
     path: "/login",
@@ -16,7 +17,7 @@ export const route = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <div>Trang chủ</div>,
+        element: <EventCanJoin />,
       },
       {
         path: "/user/history",
