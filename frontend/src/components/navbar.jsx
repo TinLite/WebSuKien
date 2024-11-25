@@ -56,8 +56,8 @@ export function MainNavbar() {
               </NavLink>
             </li>
             <li>
-              <NavLink className="nav-link" to="/profile">
-                Thông tin tài khoản
+              <NavLink className="nav-link" to="/user/changepassword">
+                Đổi mật khẩu
               </NavLink>
             </li>
           </ul>

@@ -25,7 +25,11 @@ export function initWebRoutes(app) {
     middlewareJwtAuth,
     UserApiController.getProfile
   );
-  router.post("/api/user/changepassword", middlewareJwtAuth, UserApiController.changePassword);
+  router.post(
+    "/api/user/changepassword",
+    middlewareJwtAuth,
+    UserApiController.changePassword
+  );
   //API/User
   router.get(
     "/api/user/history",
@@ -91,7 +95,6 @@ export function initWebRoutes(app) {
   router.post("/user/active/:ID", UserController.activeUser);
   router.get("/user/update/:ID", UserController.updateUser);
   router.post("/user/update/:ID", UserController.updateUser);
-
   //Group
   router.get("/group", GroupController.getAllGroups);
   router.get("/group/add", GroupController.addGroup);
