@@ -3,14 +3,18 @@ import groupModel from "../../models/GroupModel";
 const addEvent = async (req, res) => {
   const data = req.body;
   data.idCreator = req.apiUser.ID;
-  await eventModel.addEvent(data);
+  const [row] = await eventModel.addEvent(data);
+  console.log(data);
+  if (!data.group_id) {
+    return res.json({ message: "Tạo sự kiện thành công" });
+  }
+  const idEvent = row.insertId;
+  await eventModel.addEventToGroup(data.group_id, idEvent);
   return res.json({ message: "Tạo sự kiện thành công" });
 };
 
 const deleteEvent = async (req, res) => {
   const data = req.body;
-  //xóa khóa ngoại
-  eventModel.deleteEventFromGroup(data.idevent);
   await eventModel.deleteEvent(data);
   return res.json({ message: "Xóa sự kiện thành công" });
 };
@@ -26,12 +30,10 @@ const getEventDetails = async (req, res) => {
 
     res.status(200).json(event[0]);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Lỗi khi lấy thông tin sự kiện.",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Lỗi khi lấy thông tin sự kiện.",
+      error: error.message,
+    });
   }
 };
 
@@ -49,6 +51,11 @@ const lockEvent = async (req, res) => {
 const editEvent = async (req, res) => {
   const data = req.body;
   await eventModel.editEvent(data);
+  await eventModel.deleteEventFromGroup(data.idevent);
+  if (!data.group_id) {
+    return res.json({ message: "Sửa sự kiện thành công" });
+  }
+  await eventModel.addEventToGroup(data.group_id, data.idevent);
   return res.json({ message: "Sửa sự kiện thành công" });
 };
 
@@ -134,12 +141,10 @@ const getAllEvent = async (req, res) => {
 
     res.status(200).json(event[0]);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Lỗi khi lấy thông tin sự kiện.",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Lỗi khi lấy thông tin sự kiện.",
+      error: error.message,
+    });
   }
 };
 

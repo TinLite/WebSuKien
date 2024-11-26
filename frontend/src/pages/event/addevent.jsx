@@ -27,6 +27,7 @@ const AddEvent = () => {
   useEffect(() => {
     getGroupByIdManager().then((res) => {
       setGroups(res.data.groups);
+      setFormData({ ...formData, group_id: res.data.groups[0].group_id });
     });
   }, []);
   return (

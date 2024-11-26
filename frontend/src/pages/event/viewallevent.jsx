@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getListEventByIdCreater } from "../../repositories/EventRepository";
+import {
+  getListEventByIdCreater,
+  deleteEvent,
+} from "../../repositories/EventRepository";
 const ViewAllEvent = () => {
   const [listEvent, setListEvent] = useState([]);
   const handleDeleteEvent = (idevent) => {
@@ -11,7 +14,6 @@ const ViewAllEvent = () => {
   useEffect(() => {
     getListEventByIdCreater().then((res) => {
       setListEvent(res.data);
-      console.log(res.data);
     });
   }, []);
   return (
@@ -79,19 +81,15 @@ const ViewAllEvent = () => {
                       >
                         Sửa
                       </Link>
-                      <form
-                        method="post"
-                        action="/deleteevent"
-                        className="d-inline-block"
+
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => {
+                          handleDeleteEvent(event.ID);
+                        }}
                       >
-                        <input
-                          type="text"
-                          value="<%= event.ID %>"
-                          name="idevent"
-                          hidden
-                        />
-                        <button className="btn btn-danger">Xóa</button>
-                      </form>
+                        Xóa
+                      </button>
                     </td>
                   </tr>
                 ))}
