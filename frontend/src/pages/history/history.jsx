@@ -5,11 +5,14 @@ import { getHistory } from "../../repositories/UserRepository";
 export function History() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    getHistory().then((res) => {
-      setData(res.data);
-    });
+    getHistory()
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
-
   return (
     <div>
       <div className="bg-primary text-white text-center py-2">
@@ -23,10 +26,14 @@ export function History() {
           ) : (
             data.map((history) => (
               <div className="list-group" key={history.ID}>
-                <a href="#" className="list-group-item list-group-item-action">
+                <a href="/" className="list-group-item list-group-item-action">
                   <div className="d-flex justify-content-between">
                     <h5 className="mb-1">{history.name}</h5>
-                    <small>{history.occasion_date}</small>
+                    <small>
+                      {new Date(history.occasion_date).toLocaleDateString(
+                        "en-GB"
+                      )}
+                    </small>
                   </div>
                   <small className="mb-1">{history.des}</small>
                 </a>

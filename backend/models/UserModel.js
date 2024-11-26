@@ -67,7 +67,9 @@ function findById(id) {
     [id]
   );
 }
-
+function findPass(id) {
+  return connection.query("SELECT password FROM user WHERE ID = ?", [id]);
+}
 function findOneByEmail(email) {
   return connection.query("SELECT * FROM user WHERE email = ?", [email]);
 }
@@ -88,10 +90,55 @@ async function getAllHistory(id) {
 }
 async function getAllHistoryComingSoon(id) {
   const [history] = await connection.query(
-    "SELECT e.*, a.*  FROM event e, attendance a WHERE id_user = ? AND e.ID = a.event_id AND e.occasion_date > CURRENT_DATE()",
+    "SELECT e.*, a.*  FROM event e, attendance a WHERE id_user = ? AND e.ID = a.id_event AND e.occasion_date > CURRENT_DATE()",
     [id]
   );
   return history;
+}
+async function deleteAttendanceEvent(userId, eventId) {
+  const [del] = await connection.query(
+    "DELETE FROM attendance WHERE id_user = ? AND id_event = ?",
+    [userId, eventId]
+  );
+  return del;
+}
+function getattendanceEvent(userId, eventId) {
+  return connection.query(
+    "SELECT * FROM attendance WHERE id_user = ? AND id_event = ?",
+    [userId, eventId]
+  );
+}
+async function addAttendanceEvent(userId, eventId) {
+  const [add] = await connection.query(
+    "INSERT INTO attendance (id_user, id_event, status) VALUES (?, ?, ?)",
+    [userId, eventId, 1]
+  );
+  return add;
+}
+
+async function getAllEventMaybeJoin(userId) {
+  const [event] = await connection.query(
+    `SELECT DISTINCT e.*
+    FROM event e, event_group_register egr, group_member gm
+    WHERE
+      e.ID = egr.event_id AND egr.group_id = gm.group_id
+      AND
+        (gm.user_id = ?
+        OR
+        e.id_creator = ?)
+      AND
+      e.ID NOT IN (SELECT ID FROM attendance a WHERE a.id_user = ?)`,
+    [userId, userId, userId]
+  );
+  // console.log(event);
+  return event;
+}
+async function changePass(hashedPassword, userId) {
+  const [result] = await connection.query(
+    "UPDATE user SET password = ? WHERE ID = ?",
+    [hashedPassword, userId]
+  );
+  return result;
 }
 export default {
   findById,
@@ -106,4 +153,10 @@ export default {
   searchUser,
   getAllHistory,
   getAllHistoryComingSoon,
+  deleteAttendanceEvent,
+  addAttendanceEvent,
+  getattendanceEvent,
+  getAllEventMaybeJoin,
+  changePass,
+  findPass,
 };

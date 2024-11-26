@@ -1,13 +1,11 @@
 import { Router } from "express";
-import { body, validationResult } from "express-validator";
-import EventController from "../controllers/EventController.js";
 import EventApiController from "../controllers/api/EventApiController.js";
 import LoginApiController from "../controllers/api/LoginApiController.js";
 import UserApiController from "../controllers/api/UserApiController.js";
 import AuthController from "../controllers/AuthController.js";
+import EventController from "../controllers/EventController.js";
 import GroupController from "../controllers/GroupController.js";
 import UserController from "../controllers/UserController.js";
-import { validatorLogin } from "../middlewares/Validator.js";
 import {
   middlewareJwtAuth,
   middlewareJwtFetchUser,
@@ -25,6 +23,11 @@ export function initWebRoutes(app) {
     middlewareJwtAuth,
     UserApiController.getProfile
   );
+  router.post(
+    "/api/user/changepassword",
+    middlewareJwtAuth,
+    UserApiController.changePassword
+  );
   //API/User
   router.get(
     "/api/user/history",
@@ -32,10 +35,32 @@ export function initWebRoutes(app) {
     UserApiController.getAllHistory
   );
   router.get(
-    "/api/user/historyUpcoming",
+    "/api/user/eventUpcoming",
     middlewareJwtAuth,
     UserApiController.getAllHistoryComingSoon
   );
+  router.post(
+    "/api/user/attendance/:eventId",
+    middlewareJwtAuth,
+    UserApiController.addAttendanceEvent
+  );
+  router.post(
+    "/api/user/unattendance/:eventId",
+    middlewareJwtAuth,
+    UserApiController.unAttendanceEvent
+  );
+  router.get("/api/event", middlewareJwtAuth, UserApiController.getAllEvent);
+  router.post(
+    "/api/event/:eventId/join",
+    middlewareJwtAuth,
+    EventApiController.joinEvent
+  );
+  router.post(
+    "/api/event/:eventId/leave",
+    middlewareJwtAuth,
+    EventApiController.leaveEvent
+  );
+  router.post("");
   // API/Event
   router.post("/api/addevent", middlewareJwtAuth, EventApiController.addEvent);
   router.post(
@@ -68,6 +93,12 @@ export function initWebRoutes(app) {
     middlewareJwtAuth,
     EventApiController.getGroupByIdManager
   );
+  router.get("/api/users/profile/:id?", UserApiController.getProfile);
+  router.get("/api/geteventbyid/:id?", EventApiController.getEventDetails);
+
+  router.get("/api/event", EventApiController.getAllEvent);
+  router.post("/api/lock/:id?", EventApiController.lockEvent);
+  router.post("/api/unlock/:id?", EventApiController.unlockEvent);
   //Login
   router.get("/login", AuthController.login);
   router.post("/login", AuthController.login);
@@ -84,7 +115,6 @@ export function initWebRoutes(app) {
   router.post("/user/active/:ID", UserController.activeUser);
   router.get("/user/update/:ID", UserController.updateUser);
   router.post("/user/update/:ID", UserController.updateUser);
-
   //Group
   router.get("/group", GroupController.getAllGroups);
   router.get("/group/add", GroupController.addGroup);
@@ -102,6 +132,10 @@ export function initWebRoutes(app) {
   router.get("/viewallevent", EventController.getViewAllEventPage);
   router.get("/editevent/:id", EventController.getEditEventPage);
   router.post("/editevent", EventController.editEvent);
+  router.post("/markAttendance", EventController.markAttendance);
+  router.post("/lockEvent", EventController.lockEvent);
+  router.get("/detailevent/:id", EventController.getEventDetails);
+  router.get("/event/:id/participants", EventController.getEventParticipants);
 
   app.use(router);
 }

@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import UserModel from "../../models/UserModel";
 import JwtService from "../../services/JwtService";
-import { validationResult } from "express-validator";
 
 /**
  *

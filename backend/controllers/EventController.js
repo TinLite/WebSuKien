@@ -38,19 +38,14 @@ const getViewAllEventPage = async (req, res) => {
 };
 const getEditEventPage = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
-  let [event] = await eventModel.getEventByID(id);
-  event = event[0];
-  event.reg_deadline = moment
-    .utc(event.reg_deadline)
-    .utcOffset(7)
-    .format("YYYY-MM-DD");
-  event.occasion_date = moment
-    .utc(event.occasion_date)
-    .utcOffset(7)
-    .format("YYYY-MM-DD");
-  const groups = await groupModel.getAllGroups();
-  res.render("editEvent", { data: { event: event, groups: groups } });
+  let event = await eventModel.getEventById(id);
+  event.reg_deadline = new Date(event.reg_deadline)
+    .toISOString()
+    .substring(0, 10);
+  event.occasion_date = new Date(event.occasion_date)
+    .toISOString()
+    .substring(0, 10);
+  res.render("editEvent", { data: { event: event } });
 };
 const editEvent = async (req, res) => {
   const data = req.body;
@@ -62,11 +57,41 @@ const editEvent = async (req, res) => {
   await eventModel.addEventToGroup(data.group_id, data.idevent);
   return res.redirect("/viewAllEvent");
 };
+const markAttendance = async (req, res) => {
+  const { id_event, id_user } = req.body;
+  await eventModel.markAttendance(id_event, id_user);
+  return res.redirect("/viewAllEvent");
+};
+const searchParticipants = async (req, res) => {
+  const { id_event, query } = req.query;
+  const participants = await eventModel.searchParticipants(id_event, query);
+  res.render("eventParticipants", { participants });
+};
+const getEventDetails = async (req, res) => {
+  const { id } = req.params;
+  const event = await eventModel.getEventById(id);
+  res.render("detailEvent", { event });
+};
+const lockEvent = async (req, res) => {
+  const { idevent } = req.body;
+  await eventModel.lockEvent(idevent);
+  return res.redirect("/viewAllEvent");
+};
+const getEventParticipants = async (req, res) => {
+  const { id } = req.params;
+  const participants = await eventModel.getParticipantsByEventId(id);
+  res.render("partEvent", { participants });
+};
 export default {
+  getEventParticipants,
+  lockEvent,
+  getEventDetails,
   getAddEventPage,
   addEvent,
   getViewAllEventPage,
   deleteEvent,
   getEditEventPage,
   editEvent,
+  markAttendance,
+  searchParticipants,
 };
