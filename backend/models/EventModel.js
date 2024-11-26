@@ -103,6 +103,7 @@ const leaveEvent = async (id_user, id_event) => {
 export default {
   unlockEvent,
   lockEvent,
+  getEventByID,
   getEventById,
   searchParticipants,
   markAttendance,
