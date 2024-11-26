@@ -7,8 +7,8 @@ export function getEventCanJoin() {
   });
 }
 
-export function getListEventByIdCreater() {
-  return axios.get(`${API_URL}/event`, {
+export function getListEventByIdCreater(find) {
+  return axios.get(`${API_URL}/geteventbyidcreater?find=${find}`, {
     withCredentials: true,
   });
 }

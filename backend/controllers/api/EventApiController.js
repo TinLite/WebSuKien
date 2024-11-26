@@ -4,7 +4,6 @@ const addEvent = async (req, res) => {
   const data = req.body;
   data.idCreator = req.apiUser.ID;
   const [row] = await eventModel.addEvent(data);
-  console.log(data);
   if (!data.group_id) {
     return res.json({ message: "Tạo sự kiện thành công" });
   }
@@ -110,10 +109,14 @@ const getEventById = async (req, res) => {
 };
 const getEventByIdCreater = async (req, res) => {
   //   const { id_creater } = req.params;
+  console.log("find event");
   const id_creater = req.apiUser.ID;
-  let [event] = await eventModel.getEventByIdCreater(id_creater);
+  const find = req.query.find;
+  console.log(find);
+  let [event] = await eventModel.getEventByIdCreater(id_creater, find);
   res.json(event);
 };
+
 const getGroupByIdManager = async (req, res) => {
   const id_manager = req.apiUser.ID;
   let groups = await groupModel.getGroupByIdManager(id_manager);

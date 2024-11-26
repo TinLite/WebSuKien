@@ -6,13 +6,24 @@ import {
 } from "../../repositories/EventRepository";
 const ViewAllEvent = () => {
   const [listEvent, setListEvent] = useState([]);
+  const [find, setFind] = useState("");
+  const handleInpFind = (event) => {
+    setFind(event.target.value);
+  };
   const handleDeleteEvent = (idevent) => {
     deleteEvent(idevent).then((res) => {
       setListEvent(listEvent.filter((event) => event.ID != idevent));
     });
   };
+  const handleSubmitFind = (event) => {
+    event.preventDefault();
+    getListEventByIdCreater(find).then((res) => {
+      setListEvent(res.data);
+      console.log(res.data);
+    });
+  };
   useEffect(() => {
-    getListEventByIdCreater().then((res) => {
+    getListEventByIdCreater("").then((res) => {
       setListEvent(res.data);
     });
   }, []);
@@ -26,8 +37,13 @@ const ViewAllEvent = () => {
               <Link to="/event/add" className="btn btn-primary">
                 Thêm sự kiện
               </Link>
-              <form>
-                <input type="text" name="find" />
+              <form onSubmit={handleSubmitFind}>
+                <input
+                  type="text"
+                  name="find"
+                  value={find}
+                  onChange={handleInpFind}
+                />
                 <button type="submit">Tìm</button>
               </form>
             </div>

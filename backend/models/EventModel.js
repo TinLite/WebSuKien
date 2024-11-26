@@ -57,10 +57,11 @@ const searchParticipants = (id_event, query) => {
     [id_event, query, query]
   );
 };
-const getEventByIdCreater = (id_creator) => {
+const getEventByIdCreater = (id_creator, find) => {
+  find = `%${find}%`;
   return connection.query(
-    "SELECT user.username, event.* FROM `event` JOIN `user` ON event.id_creator = user.ID WHERE event.id_creator = ?",
-    [id_creator]
+    "SELECT user.username, event.* FROM `event` JOIN `user` ON event.id_creator = user.ID WHERE event.id_creator = ? AND event.name like ?",
+    [id_creator, find]
   );
 };
 const addEventToGroup = (id_group, id_event) => {
