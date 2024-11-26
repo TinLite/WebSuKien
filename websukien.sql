@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2024 at 04:44 AM
+-- Generation Time: Nov 26, 2024 at 06:31 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,6 +33,13 @@ CREATE TABLE `attendance` (
   `status` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `attendance`
+--
+
+INSERT INTO `attendance` (`id_user`, `id_event`, `status`) VALUES
+('2101598', 1, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -51,6 +58,14 @@ CREATE TABLE `event` (
   `occasion_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `event`
+--
+
+INSERT INTO `event` (`ID`, `id_creator`, `name`, `des`, `is_locked`, `is_hidden`, `reg_deadline`, `created_at`, `occasion_date`) VALUES
+(1, '1', '123', '123', 0, 0, '2024-12-11 00:00:00', '2024-11-25 07:15:10', '2024-12-20 00:00:00'),
+(2, '1', '234', '234', 0, 0, '2024-12-11 00:00:00', '2024-11-25 07:15:10', '2024-12-20 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -61,6 +76,15 @@ CREATE TABLE `event_group_register` (
   `group_id` int(11) NOT NULL,
   `event_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `event_group_register`
+--
+
+INSERT INTO `event_group_register` (`group_id`, `event_id`) VALUES
+(1, 1),
+(2, 1),
+(2, 2);
 
 -- --------------------------------------------------------
 
@@ -93,6 +117,13 @@ CREATE TABLE `group_member` (
   `user_id` varchar(128) NOT NULL,
   `group_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `group_member`
+--
+
+INSERT INTO `group_member` (`user_id`, `group_id`) VALUES
+('2101598', 1);
 
 -- --------------------------------------------------------
 
@@ -130,8 +161,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`ID`, `username`, `password`, `phone`, `email`, `role`, `status`) VALUES
 ('', 'teo', '$2b$10$/b2wojgccSGEZKURTYRqXO04whaG8J1c8nQYoUbLYIcJxV98Epfz2', '', '', 'admin', 1),
-('1', 'admin', '$2b$10$b64a3nAkgLiNitZlkkxGpumX2XR0wbuO31ttKtbnbaVChBQ521soS', '', '', 'admin', 1),
-('2002', 'Trần Thị Kim Ngân', '$2b$10$0Pa2RtsbV96/n2n1mQnhSOcx/AY6VAbj/NOvBAspBFoc0te0TyX3S', '123', 'trankimngan@gmail', 'user', 1),
+('1', 'admin', '$2b$10$b64a3nAkgLiNitZlkkxGpumX2XR0wbuO31ttKtbnbaVChBQ521soS', '', 'admin@gmail.com', 'admin', 1),
+('2002', 'Trần Thị Kim Ngân', '$2b$10$0Pa2RtsbV96/n2n1mQnhSOcx/AY6VAbj/NOvBAspBFoc0te0TyX3S', '123', 'trankimngan@gmail', 'manager', 1),
 ('2101598', 'Lê Quang Tiến', '$2b$10$uPuacI9ifpBxtmL7OOxSM.AZtuZxY3.7gJMtGKJbSnoDIpJPA15DG', '0775852135', 'lqtien2101598@student.ctuet.edu.vn', 'user', 1);
 
 --
@@ -142,8 +173,9 @@ INSERT INTO `user` (`ID`, `username`, `password`, `phone`, `email`, `role`, `sta
 -- Indexes for table `attendance`
 --
 ALTER TABLE `attendance`
-  ADD UNIQUE KEY `id_user` (`id_user`),
-  ADD UNIQUE KEY `id_event` (`id_event`);
+  ADD PRIMARY KEY (`id_user`,`id_event`),
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_event` (`id_event`);
 
 --
 -- Indexes for table `event`
@@ -156,6 +188,7 @@ ALTER TABLE `event`
 -- Indexes for table `event_group_register`
 --
 ALTER TABLE `event_group_register`
+  ADD PRIMARY KEY (`group_id`,`event_id`),
   ADD KEY `event_id` (`event_id`),
   ADD KEY `group_id` (`group_id`);
 
@@ -195,7 +228,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `groups`
@@ -217,8 +250,8 @@ ALTER TABLE `history`
 -- Constraints for table `attendance`
 --
 ALTER TABLE `attendance`
-  ADD CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`id_event`) REFERENCES `event` (`ID`),
-  ADD CONSTRAINT `attendance_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`ID`);
+  ADD CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`id_event`) REFERENCES `event` (`ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `attendance_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `event`
@@ -230,8 +263,8 @@ ALTER TABLE `event`
 -- Constraints for table `event_group_register`
 --
 ALTER TABLE `event_group_register`
-  ADD CONSTRAINT `event_group_register_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`ID`),
-  ADD CONSTRAINT `event_group_register_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`);
+  ADD CONSTRAINT `event_group_register_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `event_group_register_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `groups`
@@ -243,15 +276,15 @@ ALTER TABLE `groups`
 -- Constraints for table `group_member`
 --
 ALTER TABLE `group_member`
-  ADD CONSTRAINT `group_member_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`),
-  ADD CONSTRAINT `group_member_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`ID`);
+  ADD CONSTRAINT `group_member_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `group_member_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `history`
 --
 ALTER TABLE `history`
-  ADD CONSTRAINT `history_ibfk_1` FOREIGN KEY (`id_event`) REFERENCES `event` (`ID`),
-  ADD CONSTRAINT `history_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`ID`);
+  ADD CONSTRAINT `history_ibfk_1` FOREIGN KEY (`id_event`) REFERENCES `event` (`ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `history_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`ID`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

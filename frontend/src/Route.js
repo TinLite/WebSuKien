@@ -8,6 +8,7 @@ import ViewAllEvent from "./pages/event/viewallevent";
 import { EventUpComing } from "./pages/history/eventupcoming";
 import { History } from "./pages/history/history";
 import { LoginPage } from "./pages/login/login";
+import { ChangePass } from "./pages/user/changpass";
 export const route = createBrowserRouter([
   {
     path: "/login",
